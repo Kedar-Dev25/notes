@@ -1,11 +1,10 @@
 function Home() {
    return(
         <div>
-            <button>C++</button>
-            <button>Digital Electronics</button>
-            <button>Python</button>
-            <button>Data Structure</button>
-            <button>Algorithm</button>
+            <button>Class Notes</button>
+            <button>Record Notes</button>
+            <button>Important Deadlines</button>
+            <button>Announcements</button>
         </div>
     );
 }
