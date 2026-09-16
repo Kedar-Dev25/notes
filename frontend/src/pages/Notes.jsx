@@ -10,6 +10,8 @@ function Notes() {
     () => localStorage.getItem("username")
   );
 
+  const [selectedSubject, setSelectedSubject] = useState("Python");
+
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
 
@@ -33,8 +35,6 @@ function Notes() {
     "Algorithm"
   ];
 
-  const [selectedSubject, setSelectedSubject] = useState("Python");
-
   const classNotes = notesData.classnotes;
 
   const selectedNote = classNotes.find(
@@ -42,9 +42,21 @@ function Notes() {
   );
 
   const navItems = [
-    { label: "Class Notes", path: "/notes/classnotes", type: "classnotes" },
-    { label: "Record Notes", path: "/notes/recordnotes", type: "recordnotes" },
-    { label: "Important", path: "/notes/imp", type: "imp" },
+    {
+      label: "Class Notes",
+      path: "/notes/classnotes",
+      type: "classnotes"
+    },
+    {
+      label: "Record Notes",
+      path: "/notes/recordnotes",
+      type: "recordnotes"
+    },
+    {
+      label: "Important",
+      path: "/notes/imp",
+      type: "imp"
+    },
     {
       label: "Announcements",
       path: "/notes/announcements",
@@ -53,100 +65,127 @@ function Notes() {
   ];
 
   return (
-    <div>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#eef1f5",
+        color: "#172033",
+        fontFamily: "Arial, sans-serif"
+      }}
+    >
       {/* Main Navigation */}
-      <nav
+{/* Main Navigation */}
+<nav
+  style={{
+    background: "#172033",
+    borderBottom: "1px solid #263248",
+    padding: "8px 8px"
+  }}
+>
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: "5px",
+      width: "100%",
+      maxWidth: "900px",
+      margin: "0 auto"
+    }}
+  >
+    {navItems.map((item) => (
+      <button
+        key={item.path}
+        onClick={() => navigate(item.path)}
         style={{
-          display: "flex",
-          gap: "8px",
-          alignItems: "center",
-          padding: "14px 20px",
-          borderBottom: "1px solid #e5e5e5",
-          overflowX: "auto",
-          background: "#fff"
+          width: "100%",
+          minWidth: 0,
+          minHeight: "42px",
+          padding: "8px 4px",
+          border: "none",
+          borderRadius: "8px",
+          background:
+            type === item.type ? "#fff" : "transparent",
+          color:
+            type === item.type ? "#172033" : "#e7ebf0",
+          fontWeight:
+            type === item.type ? "600" : "500",
+          fontSize: "12px",
+          cursor: "pointer",
+          whiteSpace: "normal",
+          lineHeight: "1.2",
+          textAlign: "center"
         }}
       >
-        {/* App Name */}
-        <button
-          onClick={() => navigate("/")}
-          style={{
-            flex: "0 0 auto",
-            marginRight: "8px",
-            padding: "9px 14px",
-            border: "none",
-            background: "transparent",
-            cursor: "pointer",
-            fontWeight: "700",
-            fontSize: "16px"
-          }}
-        >
-          Notes
-        </button>
-
-        {navItems.map((item) => (
-          <button
-            key={item.path}
-            onClick={() => navigate(item.path)}
-            style={{
-              flex: "0 0 auto",
-              padding: "9px 14px",
-              borderRadius: "7px",
-              border:
-                type === item.type
-                  ? "1px solid #111"
-                  : "1px solid #ddd",
-              background:
-                type === item.type
-                  ? "#111"
-                  : "#fff",
-              color:
-                type === item.type
-                  ? "#fff"
-                  : "#222",
-              cursor: "pointer",
-              fontWeight: "500"
-            }}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
+        {item.label}
+      </button>
+    ))}
+  </div>
+</nav>
 
       {/* Greeting */}
       <div
         style={{
           maxWidth: "1000px",
           margin: "0 auto",
-          padding: "24px 20px 0"
+          padding: "24px 16px 0"
         }}
       >
-        <h2 style={{ margin: 0 }}>
+        <h2
+          style={{
+            margin: 0,
+            fontSize: "22px",
+            lineHeight: "1.3"
+          }}
+        >
           Hi, {username || "Student"} 👋
         </h2>
       </div>
 
-      {/* Main Content */}
+      {/* ================= CLASS NOTES ================= */}
       {(!type || type === "classnotes") && (
-        <div
+        <main
           style={{
             maxWidth: "1000px",
             margin: "0 auto",
-            padding: "20px"
+            padding: "18px 16px 40px"
           }}
         >
-          <div style={{ marginBottom: "24px" }}>
-            <h1 style={{ marginBottom: "6px" }}>Class Notes</h1>
+          {/* Heading */}
+          <div
+            style={{
+              marginBottom: "24px"
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 6px",
+                fontSize: "28px",
+                lineHeight: "1.2"
+              }}
+            >
+              Class Notes
+            </h1>
 
-            <p style={{ margin: 0, color: "#666" }}>
+            <p
+              style={{
+                margin: 0,
+                color: "#596579",
+                lineHeight: "1.5"
+              }}
+            >
               Find your notes by subject.
             </p>
           </div>
 
           {/* Subject Selector */}
-          <div style={{ marginBottom: "28px" }}>
+          <div
+            style={{
+              marginBottom: "28px"
+            }}
+          >
             <p
               style={{
-                marginBottom: "10px",
+                margin: "0 0 10px",
                 fontWeight: "600"
               }}
             >
@@ -156,9 +195,10 @@ function Notes() {
             <div
               style={{
                 display: "flex",
-                gap: "10px",
+                gap: "8px",
                 overflowX: "auto",
                 paddingBottom: "6px",
+                WebkitOverflowScrolling: "touch",
                 scrollbarWidth: "none"
               }}
             >
@@ -168,22 +208,27 @@ function Notes() {
                   onClick={() => setSelectedSubject(subject)}
                   style={{
                     flex: "0 0 auto",
-                    padding: "10px 16px",
+                    minHeight: "42px",
+                    padding: "9px 14px",
                     borderRadius: "8px",
                     border:
                       selectedSubject === subject
-                        ? "1px solid #111"
-                        : "1px solid #ddd",
+                        ? "1px solid #172033"
+                        : "1px solid #d3d8df",
                     background:
                       selectedSubject === subject
-                        ? "#111"
-                        : "#fff",
+                        ? "#172033"
+                        : "#f8f9fb",
                     color:
                       selectedSubject === subject
                         ? "#fff"
                         : "#222",
                     cursor: "pointer",
-                    fontWeight: "500"
+                    fontWeight:
+                      selectedSubject === subject
+                        ? "600"
+                        : "500",
+                    whiteSpace: "nowrap"
                   }}
                 >
                   {subject}
@@ -192,47 +237,340 @@ function Notes() {
             </div>
           </div>
 
-          {/* Selected Notes */}
-          <div>
-            <h2 style={{ marginBottom: "16px" }}>
+          {/* Selected Subject */}
+          <section>
+            <h2
+              style={{
+                margin: "0 0 16px",
+                fontSize: "21px"
+              }}
+            >
               {selectedSubject} Notes
             </h2>
 
             {selectedNote ? (
-              <img
-                src={selectedNote.imageUrl}
-                alt={`${selectedSubject} notes`}
-                style={{
-                  width: "100%",
-                  maxWidth: "700px",
-                  display: "block",
-                  margin: "0 auto",
-                  borderRadius: "8px",
-                  border: "1px solid #e5e5e5"
-                }}
-              />
+              <div>
+                {selectedNote.images &&
+                selectedNote.images.length > 0 ? (
+                  selectedNote.images.map((image) => (
+                    <article
+                      key={image.name}
+                      style={{
+                        background: "#fff",
+                        padding: "10px",
+                        borderRadius: "10px",
+                        border: "1px solid #dfe3e8",
+                        marginBottom: "20px",
+                        boxShadow:
+                          "0 3px 12px rgba(0,0,0,0.06)"
+                      }}
+                    >
+                      <h3
+                        style={{
+                          margin: "6px 8px 14px",
+                          fontSize: "17px",
+                          lineHeight: "1.4"
+                        }}
+                      >
+                        {image.name}
+                      </h3>
+
+                      <img
+                        src={image.imageUrl}
+                        alt={image.name}
+                        style={{
+                          width: "100%",
+                          maxWidth: "700px",
+                          height: "auto",
+                          display: "block",
+                          margin: "0 auto",
+                          borderRadius: "6px"
+                        }}
+                      />
+                    </article>
+                  ))
+                ) : (
+                  <p
+                    style={{
+                      color: "#596579"
+                    }}
+                  >
+                    No notes available for this subject yet.
+                  </p>
+                )}
+              </div>
             ) : (
-              <p style={{ color: "#666" }}>
+              <p
+                style={{
+                  color: "#596579"
+                }}
+              >
                 No notes available for this subject yet.
               </p>
             )}
-          </div>
-        </div>
+          </section>
+        </main>
       )}
 
-      {/* Other Sections */}
-      {type && type !== "classnotes" && (
-        <div
+      {/* ================= RECORD NOTES ================= */}
+      {type === "recordnotes" && (
+        <main
           style={{
             maxWidth: "1000px",
             margin: "0 auto",
-            padding: "20px"
+            padding: "18px 16px 40px"
           }}
         >
-          <h1>
-            {navItems.find((item) => item.type === type)?.label}
-          </h1>
-        </div>
+          <div
+            style={{
+              marginBottom: "24px"
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 6px",
+                fontSize: "28px"
+              }}
+            >
+              Record Notes
+            </h1>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#596579",
+                lineHeight: "1.5"
+              }}
+            >
+              Your practical and record work.
+            </p>
+          </div>
+
+          {notesData.recordnotes.map((note) => (
+            <article
+              key={note.title}
+              style={{
+                marginBottom: "24px"
+              }}
+            >
+              <h2
+                style={{
+                  margin: "0 0 14px",
+                  fontSize: "21px"
+                }}
+              >
+                {note.title}
+              </h2>
+
+              {note.images &&
+              note.images.length > 0 ? (
+                note.images.map((image) => (
+                  <div
+                    key={image.name}
+                    style={{
+                      background: "#fff",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      border: "1px solid #dfe3e8",
+                      marginBottom: "20px",
+                      boxShadow:
+                        "0 3px 12px rgba(0,0,0,0.06)"
+                    }}
+                  >
+                    <h3
+                      style={{
+                        margin: "6px 8px 14px",
+                        fontSize: "17px"
+                      }}
+                    >
+                      {image.name}
+                    </h3>
+
+                    <img
+                      src={image.imageUrl}
+                      alt={image.name}
+                      style={{
+                        width: "100%",
+                        maxWidth: "700px",
+                        height: "auto",
+                        display: "block",
+                        margin: "0 auto",
+                        borderRadius: "6px"
+                      }}
+                    />
+                  </div>
+                ))
+              ) : (
+                <p
+                  style={{
+                    color: "#596579"
+                  }}
+                >
+                  No record notes available yet.
+                </p>
+              )}
+            </article>
+          ))}
+        </main>
+      )}
+
+      {/* ================= IMPORTANT ================= */}
+      {type === "imp" && (
+        <main
+          style={{
+            maxWidth: "1000px",
+            margin: "0 auto",
+            padding: "18px 16px 40px"
+          }}
+        >
+          <div
+            style={{
+              marginBottom: "24px"
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 6px",
+                fontSize: "28px"
+              }}
+            >
+              Important
+            </h1>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#596579",
+                lineHeight: "1.5"
+              }}
+            >
+              Important dates and reminders.
+            </p>
+          </div>
+
+          {notesData.imp.map((item) => (
+            <article
+              key={item.title}
+              style={{
+                background: "#fff",
+                padding: "18px",
+                borderRadius: "10px",
+                border: "1px solid #dfe3e8",
+                marginBottom: "14px",
+                boxShadow:
+                  "0 3px 12px rgba(0,0,0,0.05)"
+              }}
+            >
+              <h2
+                style={{
+                  margin: "0 0 8px",
+                  fontSize: "18px"
+                }}
+              >
+                {item.title}
+              </h2>
+
+              <p
+                style={{
+                  margin: 0,
+                  color: "#596579"
+                }}
+              >
+                {item.date}
+              </p>
+            </article>
+          ))}
+        </main>
+      )}
+
+      {/* ================= ANNOUNCEMENTS ================= */}
+      {type === "announcements" && (
+        <main
+          style={{
+            maxWidth: "1000px",
+            margin: "0 auto",
+            padding: "18px 16px 40px"
+          }}
+        >
+          <div
+            style={{
+              marginBottom: "24px"
+            }}
+          >
+            <h1
+              style={{
+                margin: "0 0 6px",
+                fontSize: "28px"
+              }}
+            >
+              Announcements
+            </h1>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#596579",
+                lineHeight: "1.5"
+              }}
+            >
+              Important updates and announcements.
+            </p>
+          </div>
+
+          {notesData.announcements.map((item) => (
+            <article
+              key={item.title}
+              style={{
+                background: "#fff",
+                padding: "10px",
+                borderRadius: "10px",
+                border: "1px solid #dfe3e8",
+                marginBottom: "20px",
+                boxShadow:
+                  "0 3px 12px rgba(0,0,0,0.06)"
+              }}
+            >
+              <div
+                style={{
+                  padding: "8px"
+                }}
+              >
+                <h2
+                  style={{
+                    margin: "0 0 8px",
+                    fontSize: "19px"
+                  }}
+                >
+                  {item.title}
+                </h2>
+
+                <p
+                  style={{
+                    margin: 0,
+                    color: "#596579"
+                  }}
+                >
+                  {item.date}
+                </p>
+              </div>
+
+              {item.imageUrl && (
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  style={{
+                    width: "100%",
+                    maxWidth: "700px",
+                    height: "auto",
+                    display: "block",
+                    margin: "12px auto 0",
+                    borderRadius: "6px"
+                  }}
+                />
+              )}
+            </article>
+          ))}
+        </main>
       )}
     </div>
   );
