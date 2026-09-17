@@ -3,28 +3,82 @@ import { useParams, useNavigate } from "react-router-dom";
 import { notesData } from "./data";
 
 function Notes() {
-  const { type } = useParams();
+  const { type = "recordnotes" } = useParams();
   const navigate = useNavigate();
-
+  const whatsappNumber = "919114564601";
   const [username, setUsername] = useState(
     () => localStorage.getItem("username")
   );
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [openedImageIndex, setOpenedImageIndex] = useState(0);
   const [openedImage, setOpenedImage] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState("Python");
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedUsername, setEditedUsername] = useState("");
+  const [uploadedUrl, setUploadedUrl] = useState("");
 
-  useEffect(() => {
-    const savedUsername = localStorage.getItem("username");
+const handleSendWhatsApp = () => {
+  if (!uploadedUrl) {
+    return;
+  }
 
-    if (!savedUsername) {
-      navigate("/auth", { replace: true });
-      return;
-    }
+  const message = `New Note Contribution
 
-    setUsername(savedUsername);
-  }, [navigate]);
+Name: ${username}
+Image URL: ${uploadedUrl}`;
+
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappUrl, "_blank");
+};
+const handleUpload = async (file) => {
+  if (!file) {
+    return;
+  }
+
+  setIsUploading(true);
+
+  try {
+    const formData = new FormData();
+
+    formData.append("file", selectedFile);
+    formData.append("upload_preset", "notes_upload");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dwus1tmi/image/upload",
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("Cloudinary response:", data);
+    console.log("Uploaded image URL:", data.secure_url);
+
+    setUploadedUrl(data.secure_url);
+  } catch (error) {
+    console.error("Upload failed:", error);
+  } finally {
+    setIsUploading(false);
+  }
+};
+useEffect(() => {
+  const savedUsername = localStorage.getItem("username");
+
+  if (!savedUsername) {
+    navigate("/auth", { replace: true });
+    return;
+  }
+
+  setUsername(savedUsername);
+
+  if (!type) {
+    navigate("/notes/recordnotes", { replace: true });
+  }
+}, [navigate, type]);
 
   if (!username) {
     return null;
@@ -44,28 +98,28 @@ function Notes() {
     (note) => note.title === selectedSubject
   );
 
-  const navItems = [
-    {
-      label: "Class Notes",
-      path: "/notes/classnotes",
-      type: "classnotes"
-    },
-    {
-      label: "Record Notes",
-      path: "/notes/recordnotes",
-      type: "recordnotes"
-    },
-    {
-      label: "Important",
-      path: "/notes/imp",
-      type: "imp"
-    },
-    {
-      label: "Announcements",
-      path: "/notes/announcements",
-      type: "announcements"
-    }
-  ];
+const navItems = [
+  {
+    label: "Record Notes",
+    path: "/notes/recordnotes",
+    type: "recordnotes"
+  },
+  {
+    label: "Class Notes",
+    path: "/notes/classnotes",
+    type: "classnotes"
+  },
+  {
+    label: "Important",
+    path: "/notes/imp",
+    type: "imp"
+  },
+  {
+    label: "Announcements",
+    path: "/notes/announcements",
+    type: "announcements"
+  }
+];
 
   const handleEditName = () => {
     setEditedUsername(username);
@@ -1102,6 +1156,54 @@ function Notes() {
         </div>
 
       )}
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    setSelectedFile(file);
+    handleUpload(file);
+  }}
+/>
+
+<button
+  onClick={handleUpload}
+  disabled={!selectedFile || isUploading}
+>
+  {isUploading ? "Uploading..." : "Upload"}
+</button>
+
+{uploadedUrl && (
+  <img
+    src={uploadedUrl}
+    alt="Uploaded note"
+    style={{
+      width: "300px",
+      marginTop: "20px"
+    }}
+  />
+)}
+{uploadedUrl && (
+  <button
+    onClick={handleSendWhatsApp}
+    style={{
+      display: "block",
+      marginTop: "12px",
+      padding: "10px 16px",
+      border: "none",
+      borderRadius: "8px",
+      background: "#172033",
+      color: "#fff",
+      cursor: "pointer",
+      fontWeight: "600"
+    }}
+  >
+    Send on WhatsApp
+  </button>
+)}
     </div>
   );
 }
