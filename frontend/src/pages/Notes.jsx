@@ -96,11 +96,14 @@ function Notes() {
     >
       {/* Main Navigation */}
       <nav
-        style={{
-          background: "#172033",
-          borderBottom: "1px solid #263248",
-          padding: "8px 8px"
-        }}
+       style={{
+  background: "#172033",
+  borderBottom: "1px solid #263248",
+  padding: "8px 8px",
+  position: "sticky",
+  top: 0,
+  zIndex: 100
+}}
       >
         <div
           style={{
