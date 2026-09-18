@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { notesData } from "./data";
-
+import "../App.css";
 function Notes() {
   const { type = "recordnotes" } = useParams();
   const navigate = useNavigate();
@@ -156,7 +156,7 @@ const navItems = [
   padding: "8px 8px",
   position: "sticky",
   top: 0,
-  zIndex: 100
+  zIndex: 100,
 }}
       >
         <div
