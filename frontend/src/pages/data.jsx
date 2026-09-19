@@ -106,28 +106,97 @@ export const notesData = {
     }
   ],
 
-  recordnotes: [
-    {
-      title: "DSA Record",
-      images: [
-        {
-          name: "DSA Record 1",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-        },
-        {
-          name: "DSA Record 2",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-        },
-        {
-          name: "DSA Record 3",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-        }
-      ]
-    }
-  ],
+recordnotes: [
+  {
+    title: "Python",
+    images: [
+      {
+        name: "Python Record 1",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Python Record 2",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Python Record 3",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      }
+    ]
+  },
+
+  {
+    title: "C++",
+    images: [
+      {
+        name: "C++ Record 1",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "C++ Record 2",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "C++ Record 3",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      }
+    ]
+  },
+
+  {
+    title: "Digital Electronics",
+    images: [
+      {
+        name: "Digital Electronics Record 1",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Digital Electronics Record 2",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Digital Electronics Record 3",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      }
+    ]
+  },
+
+  {
+    title: "Data Structure",
+    images: [
+      {
+        name: "Data Structure Record 1",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Data Structure Record 2",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Data Structure Record 3",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      }
+    ]
+  },
+
+  {
+    title: "Algorithm",
+    images: [
+      {
+        name: "Algorithm Record 1",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Algorithm Record 2",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      },
+      {
+        name: "Algorithm Record 3",
+        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
+      }
+    ]
+  }
+],
 
   imp: [
     {

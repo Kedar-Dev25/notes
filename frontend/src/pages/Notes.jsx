@@ -553,107 +553,178 @@ const navItems = [
         </main>
       )}
 
-      {/* ================= RECORD NOTES ================= */}
-      {type === "recordnotes" && (
-        <main
-          style={{
-            maxWidth: "1000px",
-            margin: "0 auto",
-            padding: "18px 16px 40px"
-          }}
-        >
-          <div
+{/* ================= RECORD NOTES ================= */}
+{type === "recordnotes" && (
+  <main
+    style={{
+      maxWidth: "1000px",
+      margin: "0 auto",
+      padding: "18px 16px 40px"
+    }}
+  >
+    {/* Heading */}
+    <div
+      style={{
+        marginBottom: "24px"
+      }}
+    >
+      <h1
+        style={{
+          margin: "0 0 6px",
+          fontSize: "28px"
+        }}
+      >
+        Record Notes
+      </h1>
+
+      <p
+        style={{
+          margin: 0,
+          color: "#596579",
+          lineHeight: "1.5"
+        }}
+      >
+        Your practical and record work.
+      </p>
+    </div>
+
+    {/* Subject Selector */}
+    <div
+      style={{
+        marginBottom: "28px"
+      }}
+    >
+      <p
+        style={{
+          margin: "0 0 10px",
+          fontWeight: "600"
+        }}
+      >
+        Select Subject
+      </p>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "8px",
+          overflowX: "auto",
+          paddingBottom: "6px",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none"
+        }}
+      >
+        {subjects.map((subject) => (
+          <button
+            key={subject}
+            onClick={() => setSelectedSubject(subject)}
             style={{
-              marginBottom: "24px"
+              flex: "0 0 auto",
+              minHeight: "42px",
+              padding: "9px 14px",
+              borderRadius: "8px",
+              border:
+                selectedSubject === subject
+                  ? "1px solid #172033"
+                  : "1px solid #d3d8df",
+              background:
+                selectedSubject === subject
+                  ? "#172033"
+                  : "#f8f9fb",
+              color:
+                selectedSubject === subject
+                  ? "#fff"
+                  : "#222",
+              cursor: "pointer",
+              fontWeight:
+                selectedSubject === subject
+                  ? "600"
+                  : "500",
+              whiteSpace: "nowrap"
             }}
           >
-            <h1
-              style={{
-                margin: "0 0 6px",
-                fontSize: "28px"
-              }}
-            >
-              Record Notes
-            </h1>
+            {subject}
+          </button>
+        ))}
+      </div>
+    </div>
 
-            <p
-              style={{
-                margin: 0,
-                color: "#596579",
-                lineHeight: "1.5"
-              }}
-            >
-              Your practical and record work.
-            </p>
-          </div>
+    {/* Selected Subject */}
+    <section>
+      <h2
+        style={{
+          margin: "0 0 16px",
+          fontSize: "21px"
+        }}
+      >
+        {selectedSubject} Record
+      </h2>
 
-          {notesData.recordnotes.map((note) => (
+      {(() => {
+        const selectedRecord = notesData.recordnotes.find(
+          (note) => note.title === selectedSubject
+        );
+
+        return selectedRecord?.images &&
+          selectedRecord.images.length > 0 ? (
+          selectedRecord.images.map((image) => (
             <article
-              key={note.title}
+              key={image.name}
               style={{
-                marginBottom: "24px"
+                background: "#fff",
+                padding: "10px",
+                borderRadius: "10px",
+                border: "1px solid #dfe3e8",
+                marginBottom: "20px",
+                boxShadow:
+                  "0 3px 12px rgba(0,0,0,0.06)"
               }}
             >
-              <h2
+              <h3
                 style={{
-                  margin: "0 0 14px",
-                  fontSize: "21px"
+                  margin: "6px 8px 14px",
+                  fontSize: "17px",
+                  lineHeight: "1.4"
                 }}
               >
-                {note.title}
-              </h2>
+                {image.name}
+              </h3>
 
-              {note.images &&
-              note.images.length > 0 ? (
-                note.images.map((image) => (
-                  <div
-                    key={image.name}
-                    style={{
-                      background: "#fff",
-                      padding: "10px",
-                      borderRadius: "10px",
-                      border: "1px solid #dfe3e8",
-                      marginBottom: "20px",
-                      boxShadow:
-                        "0 3px 12px rgba(0,0,0,0.06)"
-                    }}
-                  >
-                    <h3
-                      style={{
-                        margin: "6px 8px 14px",
-                        fontSize: "17px"
-                      }}
-                    >
-                      {image.name}
-                    </h3>
-
-                    <img
-                      src={image.imageUrl}
-                      alt={image.name}
-                      style={{
-                        width: "100%",
-                        maxWidth: "700px",
-                        height: "auto",
-                        display: "block",
-                        margin: "0 auto",
-                        borderRadius: "6px"
-                      }}
-                    />
-                  </div>
-                ))
-              ) : (
-                <p
-                  style={{
-                    color: "#596579"
-                  }}
-                >
-                  No record notes available yet.
-                </p>
-              )}
+              <img
+                src={image.imageUrl}
+                alt={image.name}
+                onClick={() => {
+                  setOpenedImage(image);
+                  setOpenedImageIndex(
+                    selectedRecord.images.findIndex(
+                      (item) => item.name === image.name
+                    )
+                  );
+                }}
+                style={{
+                  width: "100%",
+                  maxWidth: "700px",
+                  height: "auto",
+                  display: "block",
+                  margin: "0 auto",
+                  borderRadius: "6px",
+                  cursor: "pointer"
+                }}
+              />
             </article>
-          ))}
-        </main>
-      )}
+          ))
+        ) : (
+          <p
+            style={{
+              color: "#596579"
+            }}
+          >
+            No record notes available for this subject yet.
+          </p>
+        );
+      })()}
+    </section>
+  </main>
+)}
 
       {/* ================= IMPORTANT ================= */}
       {type === "imp" && (
