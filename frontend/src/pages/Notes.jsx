@@ -101,21 +101,25 @@ useEffect(() => {
 const navItems = [
   {
     label: "Record Notes",
+    mobileLabel: "Records",
     path: "/notes/recordnotes",
     type: "recordnotes"
   },
   {
     label: "Class Notes",
+    mobileLabel: "Class Notes",
     path: "/notes/classnotes",
     type: "classnotes"
   },
   {
     label: "Important",
+    mobileLabel: "Deadline",
     path: "/notes/imp",
     type: "imp"
   },
   {
     label: "Announcements",
+    mobileLabel: "Updates",
     path: "/notes/announcements",
     type: "announcements"
   }
@@ -148,56 +152,42 @@ const navItems = [
         width: "100%"
       }}
     >
-      {/* Main Navigation */}
-      <nav
-       style={{
-  background: "#172033",
-  borderBottom: "1px solid #263248",
-  padding: "8px 8px",
-  position: "sticky",
-  top: 0,
-  zIndex: 100,
-}}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "5px",
-            width: "100%",
-            maxWidth: "900px",
-            margin: "0 auto"
-          }}
+{/* Main Navigation */}
+<nav className="main-nav">
+  <div className="nav-inner">
+
+    {/* Product Logo */}
+    <button
+      className="nav-logo"
+      onClick={() => navigate("/notes/recordnotes")}
+      aria-label="Notes home"
+    >
+      <img src="/note.png" alt="Notes" />
+    </button>
+
+    {/* Navigation Items */}
+    <div className="nav-items">
+      {navItems.map((item) => (
+        <button
+          key={item.path}
+          onClick={() => navigate(item.path)}
+          className={`nav-item ${
+            type === item.type ? "nav-item-active" : ""
+          }`}
         >
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              style={{
-                width: "100%",
-                minWidth: 0,
-                minHeight: "42px",
-                padding: "8px 4px",
-                border: "none",
-                borderRadius: "8px",
-                background:
-                  type === item.type ? "#fff" : "transparent",
-                color:
-                  type === item.type ? "#172033" : "#e7ebf0",
-                fontWeight:
-                  type === item.type ? "600" : "500",
-                fontSize: "12px",
-                cursor: "pointer",
-                whiteSpace: "normal",
-                lineHeight: "1.2",
-                textAlign: "center"
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </nav>
+          <span className="desktop-label">
+            {item.label}
+          </span>
+
+          <span className="mobile-label">
+            {item.mobileLabel}
+          </span>
+        </button>
+      ))}
+    </div>
+
+  </div>
+</nav>
 
       {/* Greeting + Profile */}
       <div

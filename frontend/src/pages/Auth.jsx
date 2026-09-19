@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../App.css";
 
 function Auth() {
   const [name, setName] = useState("");
@@ -11,27 +12,53 @@ function Auth() {
     if (!trimmedName) return;
 
     localStorage.setItem("username", trimmedName);
-
     navigate("/");
   };
 
   return (
-    <div>
-      <h1>Welcome 👋</h1>
+    <main className="auth-page">
+      <section className="auth-box">
+        <div className="auth-brand">Notes</div>
 
-      <p>What should we call you?</p>
+        <div className="auth-header">
+          <h1>Welcome 👋</h1>
+          <p>What should we call you?</p>
+        </div>
 
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+        <div className="auth-form">
+          <label htmlFor="username">Your name</label>
 
-      <button onClick={handleContinue}>
-        Continue
-      </button>
-    </div>
+          <input
+            id="username"
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            maxLength={30}
+            autoComplete="name"
+            autoFocus
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleContinue();
+              }
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={handleContinue}
+            disabled={!name.trim()}
+          >
+            Continue
+            <span>→</span>
+          </button>
+        </div>
+
+        <p className="auth-note">
+          Your name stays on this device.
+        </p>
+      </section>
+    </main>
   );
 }
 
