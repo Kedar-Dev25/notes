@@ -18,6 +18,13 @@ function Notes() {
   const [editedUsername, setEditedUsername] = useState("");
   const [uploadedUrl, setUploadedUrl] = useState("");
 
+  const handleLogout = () => {
+  localStorage.removeItem("username");
+  setUsername(null);
+  navigate("/auth", { replace: true });
+};
+
+
 const handleSendWhatsApp = () => {
   if (!uploadedUrl) {
     return;
@@ -130,17 +137,19 @@ const navItems = [
     setIsEditingName(true);
   };
 
-  const handleSaveName = () => {
-    const trimmedName = editedUsername.trim();
+const handleSaveName = () => {
+  const trimmedName = editedUsername.trim();
 
-    if (!trimmedName) {
-      return;
-    }
+  if (!trimmedName) {
+    return;
+  }
 
-    localStorage.setItem("username", trimmedName);
-    setUsername(trimmedName);
-    setIsEditingName(false);
-  };
+  localStorage.setItem("username", trimmedName);
+  setUsername(trimmedName);
+  setIsEditingName(false);
+};
+
+
 
   return (
     <div
@@ -360,6 +369,66 @@ const navItems = [
           Cancel
         </button>
       </div>
+      <div
+  style={{
+    height: "1px",
+    background: "#eceff3",
+    margin: "16px 0 12px"
+  }}
+/>
+
+<button
+  type="button"
+  onClick={handleLogout}
+  style={{
+    width: "100%",
+    height: "42px",
+    border: "1px solid #f0caca",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#c0392b",
+    cursor: "pointer",
+    fontWeight: "600",
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "8px"
+  }}
+>
+  <svg
+    width="17"
+    height="17"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M9 21H5C3.9 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3H9"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+
+    <path
+      d="M16 17L21 12L16 7"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+
+    <path
+      d="M21 12H9"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+
+  <span>Logout</span>
+</button>
     </div>
   </div>
 )}
