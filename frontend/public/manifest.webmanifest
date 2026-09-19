@@ -1,0 +1,17 @@
+{
+  "name": "Notes",
+  "short_name": "Notes",
+  "description": "Your class notes, record notes and important updates in one place.",
+  "start_url": "/notes/recordnotes",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#eef1f5",
+  "theme_color": "#172033",
+  "icons": [
+    {
+      "src": "/note.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { notesData } from "./data";
 import "../App.css";
+
 function Notes() {
   const { type = "recordnotes" } = useParams();
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ function Notes() {
   const [username, setUsername] = useState(
     () => localStorage.getItem("username")
   );
+  const [installPrompt, setInstallPrompt] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [openedImageIndex, setOpenedImageIndex] = useState(0);
@@ -23,6 +25,36 @@ function Notes() {
   setUsername(null);
   navigate("/auth", { replace: true });
 };
+
+const handleInstall = async () => {
+  if (!installPrompt) return;
+
+  installPrompt.prompt();
+
+  const { outcome } = await installPrompt.userChoice;
+
+  if (outcome === "accepted") {
+    setInstallPrompt(null);
+  }
+};
+
+
+
+  useEffect(() => {
+  const handleBeforeInstallPrompt = (event) => {
+    event.preventDefault();
+    setInstallPrompt(event);
+  };
+
+  window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+  return () => {
+    window.removeEventListener(
+      "beforeinstallprompt",
+      handleBeforeInstallPrompt
+    );
+  };
+}, []);
 
 
 const handleSendWhatsApp = () => {
@@ -197,6 +229,24 @@ const handleSaveName = () => {
 
   </div>
 </nav>
+
+{installPrompt && (
+  <button
+    onClick={handleInstall}
+    style={{
+      margin: "16px",
+      padding: "10px 16px",
+      border: "none",
+      borderRadius: "8px",
+      background: "#172033",
+      color: "#fff",
+      cursor: "pointer",
+      fontWeight: "600"
+    }}
+  >
+    Install Notes
+  </button>
+)}
 
       {/* Greeting + Profile */}
       <div
