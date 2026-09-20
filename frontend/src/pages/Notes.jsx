@@ -10,6 +10,9 @@ function Notes() {
   const [username, setUsername] = useState(
     () => localStorage.getItem("username")
   );
+
+  const [isStandalone, setIsStandalone] = useState(false);
+  const [isPwaInstalled, setIsPwaInstalled] = useState(false);
   const [installPrompt, setInstallPrompt] = useState(null);
   const [showInstallBar, setShowInstallBar] = useState(false);
   const [dismissInstallBar, setDismissInstallBar] = useState(false);
@@ -30,6 +33,10 @@ function Notes() {
 
 
 useEffect(() => {
+  if (isStandalone) {
+    return;
+  }
+
   const handleScroll = () => {
     if (window.scrollY > 180) {
       setShowInstallBar(true);
@@ -41,7 +48,7 @@ useEffect(() => {
   return () => {
     window.removeEventListener("scroll", handleScroll);
   };
-}, []);
+}, [isStandalone]);
 
 
 const handleInstall = async () => {
@@ -58,13 +65,16 @@ const handleInstall = async () => {
 
 
 
-  useEffect(() => {
+useEffect(() => {
   const handleBeforeInstallPrompt = (event) => {
     event.preventDefault();
     setInstallPrompt(event);
   };
 
-  window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  window.addEventListener(
+    "beforeinstallprompt",
+    handleBeforeInstallPrompt
+  );
 
   return () => {
     window.removeEventListener(
@@ -72,6 +82,43 @@ const handleInstall = async () => {
       handleBeforeInstallPrompt
     );
   };
+}, []);
+
+useEffect(() => {
+  const standalone = window.matchMedia(
+    "(display-mode: standalone)"
+  ).matches;
+
+  setIsStandalone(standalone);
+
+  if (standalone) {
+    return;
+  }
+
+  const checkInstalledPwa = async () => {
+    if (!("getInstalledRelatedApps" in navigator)) {
+      return;
+    }
+
+    try {
+      const relatedApps = await navigator.getInstalledRelatedApps();
+
+      const installed = relatedApps.some(
+        (app) =>
+          app.platform === "webapp" &&
+          app.id === "/"
+      );
+
+      setIsPwaInstalled(installed);
+    } catch (error) {
+      console.error(
+        "Installed PWA detection failed:",
+        error
+      );
+    }
+  };
+
+  checkInstalledPwa();
 }, []);
 
 
@@ -1413,8 +1460,8 @@ const handleSaveName = () => {
   </button>
 )}
 
-{showInstallBar && !dismissInstallBar && (
-  <div
+{!isStandalone && showInstallBar && !dismissInstallBar && (
+    <div
     style={{
       position: "fixed",
       left: "12px",
@@ -1465,7 +1512,7 @@ const handleSaveName = () => {
           lineHeight: "1.3"
         }}
       >
-        Install Notes App
+        {isPwaInstalled ? "Open Notes App" : "Install Notes App"}
       </div>
 
       <div
@@ -1480,23 +1527,29 @@ const handleSaveName = () => {
       </div>
     </div>
 
-    <button
-      type="button"
-      onClick={() => navigate("/notes/install")}
-      style={{
-        border: "none",
-        borderRadius: "8px",
-        background: "#fff",
-        color: "#172033",
-        padding: "8px 12px",
-        fontSize: "13px",
-        fontWeight: "600",
-        cursor: "pointer",
-        flexShrink: 0
-      }}
-    >
-      Install
-    </button>
+<button
+  type="button"
+  onClick={() => {
+    if (isPwaInstalled) {
+      window.location.href = "/";
+    } else {
+      navigate("/notes/install");
+    }
+  }}
+  style={{
+    border: "none",
+    borderRadius: "8px",
+    background: "#fff",
+    color: "#172033",
+    padding: "8px 12px",
+    fontSize: "13px",
+    fontWeight: "600",
+    cursor: "pointer",
+    flexShrink: 0
+  }}
+>
+  {isPwaInstalled ? "Open" : "Install"}
+</button>
 
     <button
       type="button"
