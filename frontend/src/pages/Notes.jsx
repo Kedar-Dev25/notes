@@ -132,6 +132,15 @@ const checkInstalledPwa = async () => {
   checkInstalledPwa();
 }, []);
 
+useEffect(() => {
+  const standalone = window.matchMedia(
+    "(display-mode: standalone)"
+  ).matches;
+
+  if (standalone && window.location.pathname !== "/") {
+    navigate("/", { replace: true });
+  }
+}, [navigate]);
 
 const handleSendWhatsApp = () => {
   if (!uploadedUrl) {
