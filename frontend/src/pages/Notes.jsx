@@ -487,10 +487,16 @@ const handleSaveName = () => {
   }}
 />
 
-{installPrompt && (
+{!isStandalone && (
   <button
     type="button"
-    onClick={handleInstall}
+    onClick={() => {
+      if (isPwaInstalled) {
+        window.location.href = "web+notes://open";
+      } else {
+        handleInstall();
+      }
+    }}
     style={{
       width: "100%",
       height: "42px",
@@ -508,8 +514,13 @@ const handleSaveName = () => {
       marginBottom: "10px"
     }}
   >
-    <span style={{ fontSize: "17px" }}>📱</span>
-    <span>Install Notes App</span>
+    <span style={{ fontSize: "17px" }}>
+      {isPwaInstalled ? "🚀" : "📱"}
+    </span>
+
+    <span>
+      {isPwaInstalled ? "Open Notes App" : "Install Notes App"}
+    </span>
   </button>
 )}
 
