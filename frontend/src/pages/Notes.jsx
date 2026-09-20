@@ -1542,7 +1542,7 @@ const handleSaveName = () => {
   type="button"
   onClick={() => {
     if (isPwaInstalled) {
-      window.location.href = "/";
+      window.location.href = "/notes/recordnotes";
     } else {
       navigate("/notes/install");
     }
