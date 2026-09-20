@@ -6,9 +6,10 @@
   "start_url": "/notes/recordnotes",
   "scope": "/",
   "display": "standalone",
+  "handle_links": "preferred",
   "launch_handler": {
-  "client_mode": "navigate-existing"
-},
+    "client_mode": "navigate-existing"
+  },
   "background_color": "#eef1f5",
   "theme_color": "#172033",
   "icons": [
@@ -16,12 +17,6 @@
       "src": "/note.png",
       "sizes": "512x512",
       "type": "image/png"
-    }
-  ],
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "id": "/"
     }
   ]
 }
