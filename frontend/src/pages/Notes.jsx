@@ -10,7 +10,7 @@ function Notes() {
   const [username, setUsername] = useState(
     () => localStorage.getItem("username")
   );
-
+  const [showInstalledMessage, setShowInstalledMessage] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);
   const [installPrompt, setInstallPrompt] = useState(null);
@@ -60,11 +60,32 @@ const handleInstall = async () => {
 
   if (outcome === "accepted") {
     localStorage.setItem("notesPwaInstalled", "true");
+    localStorage.setItem("notesShowInstalledWelcome", "true");
+
     setIsPwaInstalled(true);
     setInstallPrompt(null);
+
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setShowInstalledMessage(true);
+    }
   }
 };
 
+useEffect(() => {
+  const standalone = window.matchMedia("(display-mode: standalone)").matches;
+
+  if (!standalone) {
+    return;
+  }
+
+  const shouldShowWelcome =
+    localStorage.getItem("notesShowInstalledWelcome") === "true";
+
+  if (shouldShowWelcome) {
+    localStorage.removeItem("notesShowInstalledWelcome");
+    setShowInstalledMessage(true);
+  }
+}, []);
 
 useEffect(() => {
   const handleBeforeInstallPrompt = (event) => {
@@ -1603,6 +1624,110 @@ const handleSaveName = () => {
     >
       ×
     </button>
+  </div>
+)}
+{showInstalledMessage && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0, 0, 0, 0.45)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px",
+      zIndex: 9999
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "360px",
+        background: "#ffffff",
+        borderRadius: "18px",
+        padding: "24px",
+        textAlign: "center",
+        boxShadow: "0 20px 50px rgba(0,0,0,0.2)"
+      }}
+    >
+      <div style={{ fontSize: "42px", marginBottom: "10px" }}>
+        🎉
+      </div>
+
+      <h2
+        style={{
+          margin: "0 0 8px",
+          color: "#172033",
+          fontSize: "22px"
+        }}
+      >
+        Notes is installed!
+      </h2>
+
+      <p
+        style={{
+          margin: "0 0 20px",
+          color: "#667085",
+          fontSize: "14px",
+          lineHeight: "1.5"
+        }}
+      >
+        You can now open Notes directly from your home screen like a normal app.
+      </p>
+
+      <div
+        style={{
+          background: "#f4f6f8",
+          borderRadius: "14px",
+          padding: "16px",
+          marginBottom: "20px"
+        }}
+      >
+        <div
+          style={{
+            width: "64px",
+            height: "64px",
+            borderRadius: "14px",
+            background: "#172033",
+            margin: "0 auto 10px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "30px"
+          }}
+        >
+          📝
+        </div>
+
+        <div
+          style={{
+            fontSize: "13px",
+            fontWeight: "600",
+            color: "#172033"
+          }}
+        >
+          Notes
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setShowInstalledMessage(false)}
+        style={{
+          width: "100%",
+          height: "44px",
+          border: "none",
+          borderRadius: "9px",
+          background: "#172033",
+          color: "#ffffff",
+          cursor: "pointer",
+          fontWeight: "600",
+          fontSize: "14px"
+        }}
+      >
+        Start Using Notes
+      </button>
+    </div>
   </div>
 )}
     </div>
