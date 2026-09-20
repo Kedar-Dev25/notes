@@ -24,7 +24,7 @@ function Install() {
     };
   }, []);
 
-  const handleInstall = async () => {
+const handleInstall = async () => {
   if (!installPrompt) {
     return;
   }
@@ -34,6 +34,7 @@ function Install() {
   const { outcome } = await installPrompt.userChoice;
 
   if (outcome === "accepted") {
+    localStorage.setItem("notesPwaInstalled", "true");
     setInstallPrompt(null);
   }
 };
