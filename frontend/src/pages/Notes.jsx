@@ -11,6 +11,8 @@ function Notes() {
     () => localStorage.getItem("username")
   );
   const [installPrompt, setInstallPrompt] = useState(null);
+  const [showInstallBar, setShowInstallBar] = useState(false);
+  const [dismissInstallBar, setDismissInstallBar] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [openedImageIndex, setOpenedImageIndex] = useState(0);
@@ -25,6 +27,22 @@ function Notes() {
   setUsername(null);
   navigate("/auth", { replace: true });
 };
+
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (window.scrollY > 180) {
+      setShowInstallBar(true);
+    }
+  };
+
+  window.addEventListener("scroll", handleScroll);
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
+
 
 const handleInstall = async () => {
   if (!installPrompt) return;
@@ -230,23 +248,7 @@ const handleSaveName = () => {
   </div>
 </nav>
 
-{installPrompt && (
-  <button
-    onClick={handleInstall}
-    style={{
-      margin: "16px",
-      padding: "10px 16px",
-      border: "none",
-      borderRadius: "8px",
-      background: "#172033",
-      color: "#fff",
-      cursor: "pointer",
-      fontWeight: "600"
-    }}
-  >
-    Install Notes
-  </button>
-)}
+
 
       {/* Greeting + Profile */}
       <div
@@ -426,6 +428,32 @@ const handleSaveName = () => {
     margin: "16px 0 12px"
   }}
 />
+
+{installPrompt && (
+  <button
+    type="button"
+    onClick={handleInstall}
+    style={{
+      width: "100%",
+      height: "42px",
+      border: "1px solid #d3d8df",
+      borderRadius: "8px",
+      background: "#f8f9fb",
+      color: "#172033",
+      cursor: "pointer",
+      fontWeight: "600",
+      fontSize: "14px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      marginBottom: "10px"
+    }}
+  >
+    <span style={{ fontSize: "17px" }}>📱</span>
+    <span>Install Notes App</span>
+  </button>
+)}
 
 <button
   type="button"
@@ -1383,6 +1411,115 @@ const handleSaveName = () => {
   >
     Send on WhatsApp
   </button>
+)}
+
+{showInstallBar && !dismissInstallBar && (
+  <div
+    style={{
+      position: "fixed",
+      left: "12px",
+      right: "12px",
+      bottom: "12px",
+      zIndex: 900,
+      maxWidth: "560px",
+      margin: "0 auto",
+      background: "#172033",
+      color: "#fff",
+      borderRadius: "12px",
+      padding: "10px 12px",
+      boxSizing: "border-box",
+      boxShadow: "0 8px 24px rgba(23,32,51,0.20)",
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      transform: "translateY(0)",
+      animation: "installBarSlideUp 0.25s ease-out"
+    }}
+  >
+    <div
+      style={{
+        width: "34px",
+        height: "34px",
+        borderRadius: "9px",
+        background: "#263248",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        fontSize: "17px"
+      }}
+    >
+      📱
+    </div>
+
+    <div
+      style={{
+        flex: 1,
+        minWidth: 0
+      }}
+    >
+      <div
+        style={{
+          fontSize: "14px",
+          fontWeight: "600",
+          lineHeight: "1.3"
+        }}
+      >
+        Install Notes App
+      </div>
+
+      <div
+        style={{
+          marginTop: "2px",
+          fontSize: "12px",
+          color: "#c3cad5",
+          lineHeight: "1.3"
+        }}
+      >
+        Keep your notes one tap away.
+      </div>
+    </div>
+
+    <button
+      type="button"
+      onClick={() => navigate("/notes/install")}
+      style={{
+        border: "none",
+        borderRadius: "8px",
+        background: "#fff",
+        color: "#172033",
+        padding: "8px 12px",
+        fontSize: "13px",
+        fontWeight: "600",
+        cursor: "pointer",
+        flexShrink: 0
+      }}
+    >
+      Install
+    </button>
+
+    <button
+      type="button"
+      onClick={() => setDismissInstallBar(true)}
+      aria-label="Close install message"
+      style={{
+        width: "28px",
+        height: "28px",
+        border: "none",
+        background: "transparent",
+        color: "#c3cad5",
+        cursor: "pointer",
+        fontSize: "18px",
+        padding: 0,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0
+      }}
+    >
+      ×
+    </button>
+  </div>
 )}
     </div>
   );
