@@ -59,10 +59,11 @@ const handleInstall = async () => {
   const { outcome } = await installPrompt.userChoice;
 
   if (outcome === "accepted") {
+    localStorage.setItem("notesPwaInstalled", "true");
+    setIsPwaInstalled(true);
     setInstallPrompt(null);
   }
 };
-
 
 
 useEffect(() => {
@@ -95,28 +96,38 @@ useEffect(() => {
     return;
   }
 
-  const checkInstalledPwa = async () => {
-    if (!("getInstalledRelatedApps" in navigator)) {
-      return;
+const checkInstalledPwa = async () => {
+  const savedInstalled = localStorage.getItem("notesPwaInstalled");
+
+  if (savedInstalled === "true") {
+    setIsPwaInstalled(true);
+    return;
+  }
+
+  if (!("getInstalledRelatedApps" in navigator)) {
+    return;
+  }
+
+  try {
+    const relatedApps = await navigator.getInstalledRelatedApps();
+
+    const installed = relatedApps.some(
+      (app) =>
+        app.platform === "webapp" &&
+        app.id === "/"
+    );
+
+    if (installed) {
+      localStorage.setItem("notesPwaInstalled", "true");
+      setIsPwaInstalled(true);
     }
-
-    try {
-      const relatedApps = await navigator.getInstalledRelatedApps();
-
-      const installed = relatedApps.some(
-        (app) =>
-          app.platform === "webapp" &&
-          app.id === "/"
-      );
-
-      setIsPwaInstalled(installed);
-    } catch (error) {
-      console.error(
-        "Installed PWA detection failed:",
-        error
-      );
-    }
-  };
+  } catch (error) {
+    console.error(
+      "Installed PWA detection failed:",
+      error
+    );
+  }
+};
 
   checkInstalledPwa();
 }, []);
