@@ -34,9 +34,11 @@ const handleInstall = async () => {
   const { outcome } = await installPrompt.userChoice;
 
   if (outcome === "accepted") {
-    localStorage.setItem("notesPwaInstalled", "true");
-    setInstallPrompt(null);
-  }
+  localStorage.setItem("notesPwaInstalled", "true");
+  localStorage.setItem("notesShowInstalledWelcome", "true");
+
+  setInstallPrompt(null);
+}
 };
   return (
     <div
