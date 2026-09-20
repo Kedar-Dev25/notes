@@ -7,6 +7,14 @@
   "scope": "/",
   "display": "standalone",
   "handle_links": "preferred",
+
+  "protocol_handlers": [
+    {
+      "protocol": "web+notes",
+      "url": "/notes/recordnotes?protocol=%s"
+    }
+  ],
+
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
