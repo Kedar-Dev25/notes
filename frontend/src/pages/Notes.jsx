@@ -716,47 +716,75 @@ const handleSaveName = () => {
                 selectedNote.images.length > 0 ? (
                   selectedNote.images.map((image) => (
                     <article
-                      key={image.name}
-                      style={{
-                        background: "#fff",
-                        padding: "10px",
-                        borderRadius: "10px",
-                        border: "1px solid #dfe3e8",
-                        marginBottom: "20px",
-                        boxShadow:
-                          "0 3px 12px rgba(0,0,0,0.06)"
-                      }}
-                    >
-                      <h3
-                        style={{
-                          margin: "6px 8px 14px",
-                          fontSize: "17px",
-                          lineHeight: "1.4"
-                        }}
-                      >
-                        {image.name}
-                      </h3>
-
-                      <img
-  src={image.imageUrl}
-  alt={image.name}
-  onClick={() => {
-  setOpenedImage(image);
-  setOpenedImageIndex(
-    selectedNote.images.findIndex((item) => item.name === image.name)
-  );
-}}
+  key={image.name}
   style={{
-    width: "100%",
-    maxWidth: "700px",
-    height: "auto",
-    display: "block",
-    margin: "0 auto",
-    borderRadius: "6px",
-    cursor: "pointer"
+    background: "#fff",
+    padding: "10px",
+    borderRadius: "10px",
+    border: "1px solid #dfe3e8",
+    marginBottom: "20px",
+    boxShadow: "0 3px 12px rgba(0,0,0,0.06)"
   }}
-/>
-                    </article>
+>
+  {/* Title + Date */}
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "10px",
+      margin: "4px 6px 10px"
+    }}
+  >
+    <h3
+      style={{
+        margin: 0,
+        fontSize: "16px",
+        lineHeight: "1.3",
+        flex: 1,
+        minWidth: 0
+      }}
+    >
+      {image.name}
+    </h3>
+
+    {image.date && (
+      <span
+        style={{
+          flexShrink: 0,
+          fontSize: "10px",
+          color: "#667085",
+          whiteSpace: "nowrap"
+        }}
+      >
+        {image.date}
+      </span>
+    )}
+  </div>
+
+  {/* Note Image */}
+  <img
+    src={image.imageUrl}
+    alt={image.name}
+    onClick={() => {
+      setOpenedImage(image);
+      setOpenedImageIndex(
+        selectedNote.images.findIndex(
+          (item) => item.name === image.name
+        )
+      );
+    }}
+    style={{
+      width: "100%",
+      maxWidth: "700px",
+      height: "500px",
+      display: "block",
+      margin: "0 auto",
+      borderRadius: "6px",
+      cursor: "pointer"
+    }}
+  />
+</article>
                   ))
                 ) : (
                   <p
@@ -894,50 +922,69 @@ const handleSaveName = () => {
 
         return selectedRecord?.images &&
           selectedRecord.images.length > 0 ? (
-          selectedRecord.images.map((image) => (
+          selectedRecord.images.map((record) => (
             <article
-              key={image.name}
+              key={record.name}
               style={{
                 background: "#fff",
-                padding: "10px",
+                padding: "16px",
                 borderRadius: "10px",
                 border: "1px solid #dfe3e8",
-                marginBottom: "20px",
+                marginBottom: "14px",
                 boxShadow:
                   "0 3px 12px rgba(0,0,0,0.06)"
               }}
             >
-              <h3
+              <div
                 style={{
-                  margin: "6px 8px 14px",
-                  fontSize: "17px",
-                  lineHeight: "1.4"
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "10px"
                 }}
               >
-                {image.name}
-              </h3>
+                <div style={{ minWidth: 0 }}>
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: "16px",
+                      lineHeight: "1.4"
+                    }}
+                  >
+                    {record.name}
+                  </h3>
 
-              <img
-                src={image.imageUrl}
-                alt={image.name}
-                onClick={() => {
-                  setOpenedImage(image);
-                  setOpenedImageIndex(
-                    selectedRecord.images.findIndex(
-                      (item) => item.name === image.name
-                    )
-                  );
-                }}
-                style={{
-                  width: "100%",
-                  maxWidth: "700px",
-                  height: "auto",
-                  display: "block",
-                  margin: "0 auto",
-                  borderRadius: "6px",
-                  cursor: "pointer"
-                }}
-              />
+                  {record.date && (
+                    <p
+                      style={{
+                        margin: "5px 0 0",
+                        fontSize: "12px",
+                        color: "#667085"
+                      }}
+                    >
+                      {record.date}
+                    </p>
+                  )}
+                </div>
+
+                <a
+                  href={record.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    flexShrink: 0,
+                    padding: "9px 13px",
+                    borderRadius: "8px",
+                    background: "#172033",
+                    color: "#fff",
+                    textDecoration: "none",
+                    fontSize: "13px",
+                    fontWeight: "600"
+                  }}
+                >
+                  Open PDF
+                </a>
+              </div>
             </article>
           ))
         ) : (
@@ -953,6 +1000,7 @@ const handleSaveName = () => {
     </section>
   </main>
 )}
+
 
       {/* ================= IMPORTANT ================= */}
       {type === "imp" && (

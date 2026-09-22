@@ -22,25 +22,16 @@ export const notesData = {
     },
 
     {
-      title: "C++",
-      images: [
-        {
-          name: "C++ Notes 1",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        },
-        {
-          name: "C++ Notes 2",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        },
-        {
-          name: "C++ Notes 3",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        }
-      ]
-    },
+  title: "C++",
+  images: [
+    {
+      name: "Static Data Member and Member Function",
+      date: "21 September 2026",
+      imageUrl:
+        "https://res.cloudinary.com/dwus1tmi/image/upload/c_crop,g_north_west,h_901,w_882,y_111/WhatsApp_Image_2026-09-18_at_1.04.48_PM.jpg"
+    }
+  ]
+},
 
     {
       title: "Digital Electronics",
@@ -109,92 +100,38 @@ export const notesData = {
 recordnotes: [
   {
     title: "Python",
-    images: [
-      {
-        name: "Python Record 1",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Python Record 2",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Python Record 3",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      }
-    ]
+    images: []
   },
 
   {
     title: "C++",
-    images: [
-      {
-        name: "C++ Record 1",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "C++ Record 2",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "C++ Record 3",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      }
-    ]
+    images: []
   },
 
-  {
-    title: "Digital Electronics",
-    images: [
-      {
-        name: "Digital Electronics Record 1",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Digital Electronics Record 2",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Digital Electronics Record 3",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      }
-    ]
-  },
+{
+  title: "Digital Electronics",
+  images: [
+    {
+      name: "Digital Electronics Experiment 1",
+      date: "21 September 2026",
+      pdfUrl: "/notes/recordnotes/digital-ex-1.pdf"
+    },
+    {
+      name: "Digital Electronics Experiment 2",
+      date: "21 September 2026",
+      pdfUrl: "/notes/recordnotes/digital-ex-2.pdf"
+    }
+  ]
+},
 
   {
     title: "Data Structure",
-    images: [
-      {
-        name: "Data Structure Record 1",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Data Structure Record 2",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Data Structure Record 3",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      }
-    ]
+    images: []
   },
 
   {
     title: "Algorithm",
-    images: [
-      {
-        name: "Algorithm Record 1",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Algorithm Record 2",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      },
-      {
-        name: "Algorithm Record 3",
-        imageUrl: "https://res.cloudinary.com/dwus1tmi/image/upload/v1786772097/WhatsApp_Image_2026-08-13_at_4.38.49_PM.jpg"
-      }
-    ]
+    images: []
   }
 ],
 
