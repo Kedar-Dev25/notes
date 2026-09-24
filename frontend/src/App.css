@@ -399,3 +399,236 @@
   }
 
 }
+
+
+/* =========================
+   Premium PWA Open Guide
+========================= */
+
+.notes-phone-page-one {
+  animation: premiumPageOne 4.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  will-change: transform;
+}
+
+.notes-phone-page-two {
+  animation: premiumPageTwo 4.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  will-change: transform;
+}
+
+
+/* -------------------------
+   Finger / Touch Pointer
+------------------------- */
+
+.notes-demo-finger {
+  left: 42px;
+  top: 182px;
+
+  /*
+    Makes the emoji/finger feel more like
+    a real touch indicator.
+  */
+  filter:
+    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+
+  transform-origin: 50% 85%;
+
+  animation:
+    premiumFinger 4.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+
+  will-change: left, top, transform, opacity;
+}
+
+
+/* -------------------------
+   Swipe Indicator
+------------------------- */
+
+.notes-demo-arrow {
+  font-size: 18px;
+  letter-spacing: 2px;
+
+  opacity: 0;
+
+  animation:
+    premiumSwipeHint 4.2s ease-in-out infinite;
+
+  will-change: transform, opacity;
+}
+
+
+/* =========================
+   HOME SCREEN PAGE 1
+========================= */
+
+@keyframes premiumPageOne {
+
+  /* Rest */
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+
+  /* Smooth swipe */
+  34%,
+  68% {
+    transform: translateX(-100%);
+  }
+
+  /* Reset */
+  82%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+/* =========================
+   HOME SCREEN PAGE 2
+========================= */
+
+@keyframes premiumPageTwo {
+
+  /* Waiting outside screen */
+  0%,
+  20% {
+    transform: translateX(100%);
+  }
+
+  /* Slide into screen */
+  34%,
+  68% {
+    transform: translateX(0);
+  }
+
+  /* Slide back out */
+  82%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+@keyframes premiumFinger {
+
+  /* Hidden */
+  0% {
+    left: 42px;
+    top: 182px;
+    opacity: 0;
+    transform: scale(0.9) rotate(-4deg);
+  }
+
+  /* Finger appears */
+  8% {
+    left: 42px;
+    top: 182px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* Swipe */
+  20% {
+    left: 72px;
+    top: 182px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  31% {
+    left: 112px;
+    top: 182px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* Page has changed */
+  38% {
+    left: 112px;
+    top: 182px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* Move toward CENTER Notes icon */
+  48% {
+    left: 91px;
+    top: 145px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* Exactly over Notes */
+  55% {
+    left: 91px;
+    top: 118px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* TAP */
+  58% {
+    left: 91px;
+    top: 118px;
+    opacity: 1;
+    transform: scale(0.76) rotate(-4deg);
+  }
+
+  /* Release */
+  62% {
+    left: 91px;
+    top: 118px;
+    opacity: 1;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* Fade */
+  68% {
+    left: 91px;
+    top: 118px;
+    opacity: 0;
+    transform: scale(1) rotate(-4deg);
+  }
+
+  /* Reset */
+  100% {
+    left: 42px;
+    top: 182px;
+    opacity: 0;
+    transform: scale(0.9) rotate(-4deg);
+  }
+}
+
+
+/* =========================
+   SWIPE HINT
+========================= */
+
+@keyframes premiumSwipeHint {
+
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.85);
+  }
+
+  14% {
+    opacity: 0.45;
+    transform: translateX(-50%) scale(1);
+  }
+
+  25% {
+    opacity: 0.7;
+    transform: translateX(-50%) translateX(18px);
+  }
+
+  32% {
+    opacity: 0;
+    transform: translateX(-50%) translateX(28px);
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

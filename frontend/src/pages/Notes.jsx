@@ -10,6 +10,7 @@ function Notes() {
   const [username, setUsername] = useState(
     () => localStorage.getItem("username")
   );
+  const [showOpenGuide, setShowOpenGuide] = useState(false);
   const [showInstalledMessage, setShowInstalledMessage] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);
@@ -1779,13 +1780,13 @@ const handleSaveName = () => {
 
 <button
   type="button"
-  onClick={() => {
-    if (isPwaInstalled) {
-      window.location.href = "web+notes://open";
-    } else {
-      navigate("/notes/install");
-    }
-  }}
+onClick={() => {
+  if (isPwaInstalled) {
+    setShowOpenGuide(true);
+  } else {
+    navigate("/notes/install");
+  }
+}}
   style={{
     border: "none",
     borderRadius: "8px",
@@ -1824,6 +1825,359 @@ const handleSaveName = () => {
     </button>
   </div>
 )}
+
+
+
+{showOpenGuide && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      zIndex: 9998,
+      background: "rgba(0, 0, 0, 0.52)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "18px",
+      boxSizing: "border-box",
+      backdropFilter: "blur(3px)"
+    }}
+    onClick={() => setShowOpenGuide(false)}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "390px",
+        maxHeight: "90vh",
+        overflowY: "auto",
+        background: "#ffffff",
+        borderRadius: "20px",
+        padding: "22px 18px 18px",
+        boxSizing: "border-box",
+        boxShadow: "0 24px 70px rgba(0,0,0,0.25)",
+        textAlign: "center"
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Header */}
+      <div
+        style={{
+          fontSize: "27px",
+          marginBottom: "7px"
+        }}
+      >
+        📱
+      </div>
+
+      <h2
+        style={{
+          margin: 0,
+          color: "#172033",
+          fontSize: "21px",
+          lineHeight: "1.3"
+        }}
+      >
+        Notes is already installed
+      </h2>
+
+      <p
+        style={{
+          margin: "8px auto 0",
+          maxWidth: "310px",
+          color: "#667085",
+          fontSize: "13px",
+          lineHeight: "1.5"
+        }}
+      >
+        Open Notes from your phone's home screen.
+      </p>
+
+      {/* Phone Demo */}
+      <div
+        style={{
+          margin: "20px auto 16px",
+          width: "190px",
+          height: "340px",
+          borderRadius: "27px",
+          background: "#101827",
+          padding: "8px",
+          boxSizing: "border-box",
+          boxShadow:
+            "0 12px 35px rgba(23,32,51,0.25)",
+          position: "relative",
+          overflow: "hidden"
+        }}
+      >
+        {/* Phone camera */}
+        <div
+          style={{
+            position: "absolute",
+            top: "13px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "55px",
+            height: "5px",
+            borderRadius: "10px",
+            background: "#263248",
+            zIndex: 5
+          }}
+        />
+
+        {/* Screen */}
+        <div
+          className="notes-phone-screen"
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "21px",
+            overflow: "hidden",
+            position: "relative",
+            background: "#eef1f5"
+          }}
+        >
+          {/* Screen 1 */}
+          <div
+            className="notes-phone-page notes-phone-page-one"
+            style={{
+              position: "absolute",
+              inset: 0,
+              padding: "48px 13px 20px",
+              boxSizing: "border-box"
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "14px 10px"
+              }}
+            >
+              {["🌐", "📷", "🎵", "📁", "⚙️", "🟢"].map(
+                (icon, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "4px"
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "39px",
+                        height: "39px",
+                        borderRadius: "10px",
+                        background: "#ffffff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "20px",
+                        boxShadow:
+                          "0 2px 6px rgba(23,32,51,0.08)"
+                      }}
+                    >
+                      {icon}
+                    </div>
+
+                    <span
+                      style={{
+                        fontSize: "7px",
+                        color: "#596579"
+                      }}
+                    >
+                      App
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Screen 2 */}
+          <div
+            className="notes-phone-page notes-phone-page-two"
+            style={{
+              position: "absolute",
+              inset: 0,
+              padding: "48px 13px 20px",
+              boxSizing: "border-box",
+              background: "#eef1f5",
+              transform: "translateX(100%)"
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "14px 10px"
+              }}
+            >
+              {["📚", "📝", "📅", "📌", "🎓", "📒"].map(
+                (icon, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "4px"
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "39px",
+                        height: "39px",
+                        borderRadius: "10px",
+                        background: "#ffffff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "20px",
+                        boxShadow:
+                          "0 2px 6px rgba(23,32,51,0.08)"
+                      }}
+                    >
+                      {icon}
+                    </div>
+
+                    <span
+                      style={{
+                        fontSize: "7px",
+                        color: "#596579"
+                      }}
+                    >
+                      App
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
+
+            {/* Notes App */}
+            <div
+              style={{
+                position: "absolute",
+                top: "118px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "4px"
+              }}
+            >
+              <div
+                style={{
+                  width: "46px",
+                  height: "46px",
+                  borderRadius: "12px",
+                  background: "#172033",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "24px",
+                  boxShadow:
+                    "0 4px 10px rgba(23,32,51,0.18)"
+                }}
+              >
+                📝
+              </div>
+
+              <span
+                style={{
+                  fontSize: "8px",
+                  fontWeight: "600",
+                  color: "#172033"
+                }}
+              >
+                Notes
+              </span>
+            </div>
+          </div>
+
+          {/* Animated Finger */}
+          <div
+            className="notes-demo-finger"
+            style={{
+              position: "absolute",
+              zIndex: 10,
+              fontSize: "42px",
+              lineHeight: 1,
+              pointerEvents: "none"
+            }}
+          >
+            👆
+          </div>
+
+          {/* Swipe Arrow */}
+          <div
+            className="notes-demo-arrow"
+            style={{
+              position: "absolute",
+              zIndex: 9,
+              left: "50%",
+              top: "165px",
+              transform: "translateX(-50%)",
+              fontSize: "22px",
+              fontWeight: "700",
+              color: "#172033",
+              pointerEvents: "none"
+            }}
+          >
+            ← →
+          </div>
+        </div>
+      </div>
+
+      {/* Instruction */}
+      <div
+        style={{
+          background: "#f4f6f8",
+          borderRadius: "11px",
+          padding: "10px 12px",
+          marginBottom: "15px"
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            color: "#344054",
+            fontSize: "12px",
+            lineHeight: "1.5",
+            fontWeight: "500"
+          }}
+        >
+          Swipe to the next home-screen page, then tap the
+          <strong> Notes </strong>
+          app.
+        </p>
+      </div>
+
+      {/* Close */}
+      <button
+        type="button"
+        onClick={() => setShowOpenGuide(false)}
+        style={{
+          width: "100%",
+          height: "44px",
+          border: "none",
+          borderRadius: "9px",
+          background: "#172033",
+          color: "#ffffff",
+          cursor: "pointer",
+          fontSize: "14px",
+          fontWeight: "600"
+        }}
+      >
+        Got it
+      </button>
+    </div>
+  </div>
+)}
+
+
+
 {showInstalledMessage && (
   <div
     style={{
