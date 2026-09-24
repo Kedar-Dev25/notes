@@ -112,12 +112,12 @@ recordnotes: [
   title: "Digital Electronics",
   images: [
     {
-      name: "Digital Electronics Experiment 1",
+      name: "Experiment 1",
       date: "21 September 2026",
       pdfUrl: "/notes/recordnotes/digital-ex-1.pdf"
     },
     {
-      name: "Digital Electronics Experiment 2",
+      name: "Experiment 2",
       date: "21 September 2026",
       pdfUrl: "/notes/recordnotes/digital-ex-2.pdf"
     }
@@ -128,12 +128,12 @@ recordnotes: [
     title: "Data Structure",
     images: [
     {
-      name: "Data Structure Experiment 1",
+      name: "Experiment 1",
       date: "21 September 2026",
       pdfUrl: "/notes/recordnotes/ds-ex-1.pdf"
     },
     {
-      name: "Data Structure Experiment 2",
+      name: "Experiment 2",
       date: "21 September 2026",
       pdfUrl: "/notes/recordnotes/ds-ex-2.pdf"
     }
@@ -153,12 +153,18 @@ recordnotes: [
     }
   ],
 
-  announcements: [
-    {
-      title: "Internal Exam",
-      date: "25 September 2026",
-      imageUrl:
-        "https://res.cloudinary.com/dwus1tmi/image/upload/v1789569881/WhatsApp_Image_2026-08-19_at_4.34.19_PM_1.jpg"
-    }
-  ]
+announcements: [
+  {
+    title: "Holiday Notice — 24 September 2026",
+    date: "23 September 2026",
+    imageUrl:
+      "https://res.cloudinary.com/dwus1tmi/image/upload/v1790233465/WhatsApp_Image_2026-09-23_at_11.14.55_PM.jpg"
+  },
+  {
+    title: "India Skill 2026-27 Competition",
+    date: "25 September 2026",
+    imageUrl:
+      "https://res.cloudinary.com/dwus1tmi/image/upload/v1789569881/WhatsApp_Image_2026-08-19_at_4.34.19_PM_1.jpg"
+  }
+]
 };
