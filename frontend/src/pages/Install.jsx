@@ -39,6 +39,7 @@ useEffect(() => {
 
 const handleInstall = async () => {
   if (!installPrompt) {
+    alert("Install prompt is not available on this browser yet.");
     return;
   }
 
@@ -46,13 +47,13 @@ const handleInstall = async () => {
 
   const { outcome } = await installPrompt.userChoice;
 
-if (outcome === "accepted") {
-  localStorage.setItem("notesPwaInstalled", "true");
-  localStorage.setItem("notesShowInstalledWelcome", "true");
+  if (outcome === "accepted") {
+    localStorage.setItem("notesPwaInstalled", "true");
+    localStorage.setItem("notesShowInstalledWelcome", "true");
 
-  window.notesInstallPrompt = null;
-  setInstallPrompt(null);
-}
+    window.notesInstallPrompt = null;
+    setInstallPrompt(null);
+  }
 };
   return (
     <div
