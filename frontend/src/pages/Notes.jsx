@@ -13,7 +13,9 @@ function Notes() {
   const [showInstalledMessage, setShowInstalledMessage] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
   const [isPwaInstalled, setIsPwaInstalled] = useState(false);
-  const [installPrompt, setInstallPrompt] = useState(null);
+  const [installPrompt, setInstallPrompt] = useState(
+  () => window.notesInstallPrompt || null
+);
   const [showInstallBar, setShowInstallBar] = useState(false);
   const [dismissInstallBar, setDismissInstallBar] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
