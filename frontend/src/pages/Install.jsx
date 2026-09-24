@@ -7,7 +7,15 @@ const [installPrompt, setInstallPrompt] = useState(
   () => window.notesInstallPrompt || null
 );
 const [isStandalone, setIsStandalone] = useState(false);
+useEffect(() => {
+  const isStandalone =
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true;
 
+  if (isStandalone) {
+    navigate("/notes", { replace: true });
+  }
+}, [navigate]);
 useEffect(() => {
   const handleBeforeInstallPrompt = (event) => {
     event.preventDefault();
