@@ -117,10 +117,12 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  const handleBeforeInstallPrompt = (event) => {
-    event.preventDefault();
-    setInstallPrompt(event);
-  };
+const handleBeforeInstallPrompt = (event) => {
+  event.preventDefault();
+
+  window.notesInstallPrompt = event;
+  setInstallPrompt(event);
+};
 
   window.addEventListener(
     "beforeinstallprompt",

@@ -3,26 +3,31 @@ import { useNavigate } from "react-router-dom";
 
 function Install() {
  const navigate = useNavigate();
-  const [installPrompt, setInstallPrompt] = useState(null);
+const [installPrompt, setInstallPrompt] = useState(
+  () => window.notesInstallPrompt || null
+);
+const [isStandalone, setIsStandalone] = useState(false);
 
-    useEffect(() => {
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
-      setInstallPrompt(event);
-    };
+useEffect(() => {
+  const handleBeforeInstallPrompt = (event) => {
+    event.preventDefault();
 
-    window.addEventListener(
+    window.notesInstallPrompt = event;
+    setInstallPrompt(event);
+  };
+
+  window.addEventListener(
+    "beforeinstallprompt",
+    handleBeforeInstallPrompt
+  );
+
+  return () => {
+    window.removeEventListener(
       "beforeinstallprompt",
       handleBeforeInstallPrompt
     );
-
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-    };
-  }, []);
+  };
+}, []);
 
 const handleInstall = async () => {
   if (!installPrompt) {
@@ -33,10 +38,11 @@ const handleInstall = async () => {
 
   const { outcome } = await installPrompt.userChoice;
 
-  if (outcome === "accepted") {
+if (outcome === "accepted") {
   localStorage.setItem("notesPwaInstalled", "true");
   localStorage.setItem("notesShowInstalledWelcome", "true");
 
+  window.notesInstallPrompt = null;
   setInstallPrompt(null);
 }
 };
