@@ -126,7 +126,18 @@ recordnotes: [
 
   {
     title: "Data Structure",
-    images: []
+    images: [
+    {
+      name: "Data Structure Experiment 1",
+      date: "21 September 2026",
+      pdfUrl: "/notes/recordnotes/ds-ex-1.pdf"
+    },
+    {
+      name: "Data Structure Experiment 2",
+      date: "21 September 2026",
+      pdfUrl: "/notes/recordnotes/ds-ex-2.pdf"
+    }
+  ]
   },
 
   {

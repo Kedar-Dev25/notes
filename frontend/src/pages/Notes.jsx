@@ -25,6 +25,35 @@ function Notes() {
   const [editedUsername, setEditedUsername] = useState("");
   const [uploadedUrl, setUploadedUrl] = useState("");
 
+
+const handleShare = async () => {
+  const shareUrl = window.location.origin;
+
+  const shareData = {
+    title: "Notes26",
+    text: "Class notes, records and important updates — check out Notes26.",
+    url: shareUrl
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+      return;
+    }
+
+    await navigator.clipboard.writeText(shareUrl);
+    alert("Notes26 link copied!");
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("Notes26 link copied!");
+      } catch (clipboardError) {
+        console.error("Share failed:", clipboardError);
+      }
+    }
+  }
+};
   const handleLogout = () => {
   localStorage.removeItem("username");
   setUsername(null);
@@ -330,541 +359,199 @@ const handleSaveName = () => {
 
 
 
-      {/* Greeting + Profile */}
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "1000px",
-          margin: "0 auto",
-          padding: "24px 16px 0",
-          boxSizing: "border-box"
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "12px",
-            position: "relative"
-          }}
-        >
-          <h2
-            style={{
-              margin: 0,
-              fontSize: "22px",
-              lineHeight: "1.3",
-              minWidth: 0,
-              overflowWrap: "anywhere"
-            }}
-          >
-            Hi, {username || "Student"} 👋
-          </h2>
-
-          <div
-            style={{
-              position: "relative",
-              flexShrink: 0
-            }}
-          >
-            <button
-              onClick={handleEditName}
-              aria-label="Edit profile name"
-              style={{
-                borderRadius: "50%",
-                border: "2px solid #172033",
-                height: "50px",
-                width: "50px",
-                background: "#fff",
-                color: "#172033",
-                cursor: "pointer",
-                fontWeight: "600",
-                fontSize: "18px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: 0
-              }}
-            >
-              {(username || "S").charAt(0).toUpperCase()}
-            </button>
-          </div>
-        </div>
-
-{/* Edit Name Modal */}
-{isEditingName && (
-  <div
-    onClick={() => setIsEditingName(false)}
-    style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(23, 32, 51, 0.35)",
-      backdropFilter: "blur(6px)",
-      WebkitBackdropFilter: "blur(6px)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "20px",
-      zIndex: 1000,
-      boxSizing: "border-box"
-    }}
-  >
-    <div
-      onClick={(e) => e.stopPropagation()}
-      style={{
-        width: "100%",
-        maxWidth: "400px",
-        background: "#fff",
-        borderRadius: "14px",
-        padding: "20px",
-        boxSizing: "border-box",
-        boxShadow: "0 12px 40px rgba(0,0,0,0.18)"
-      }}
-    >
-      <p
-        style={{
-          margin: "0 0 6px",
-          fontSize: "18px",
-          fontWeight: "600",
-          color: "#172033"
-        }}
-      >
-        Edit your name
-      </p>
-
-      <p
-        style={{
-          margin: "0 0 16px",
-          fontSize: "14px",
-          color: "#596579",
-          lineHeight: "1.4"
-        }}
-      >
-        This name will be shown on your notes page.
-      </p>
-
-      <input
-        type="text"
-        value={editedUsername}
-        onChange={(e) => setEditedUsername(e.target.value)}
-        autoFocus
-        maxLength={30}
-        style={{
-          width: "100%",
-          height: "44px",
-          padding: "0 12px",
-          border: "1px solid #d3d8df",
-          borderRadius: "8px",
-          fontSize: "16px",
-          color: "#172033",
-          outline: "none",
-          boxSizing: "border-box"
-        }}
-      />
-
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-          marginTop: "12px"
-        }}
-      >
-        <button
-          onClick={handleSaveName}
-          style={{
-            flex: 1,
-            height: "44px",
-            border: "none",
-            borderRadius: "8px",
-            background: "#172033",
-            color: "#fff",
-            cursor: "pointer",
-            fontWeight: "600"
-          }}
-        >
-          Save
-        </button>
-
-        <button
-          onClick={() => setIsEditingName(false)}
-          style={{
-            flex: 1,
-            height: "44px",
-            border: "1px solid #d3d8df",
-            borderRadius: "8px",
-            background: "#f8f9fb",
-            color: "#172033",
-            cursor: "pointer",
-            fontWeight: "500"
-          }}
-        >
-          Cancel
-        </button>
-      </div>
-      <div
-  style={{
-    height: "1px",
-    background: "#eceff3",
-    margin: "16px 0 12px"
-  }}
-/>
-
-{!isStandalone && (
-  <button
-    type="button"
-    onClick={() => {
-      if (isPwaInstalled) {
-        window.location.href = "web+notes://open";
-      } else {
-        handleInstall();
-      }
-    }}
-    style={{
-      width: "100%",
-      height: "42px",
-      border: "1px solid #d3d8df",
-      borderRadius: "8px",
-      background: "#f8f9fb",
-      color: "#172033",
-      cursor: "pointer",
-      fontWeight: "600",
-      fontSize: "14px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "8px",
-      marginBottom: "10px"
-    }}
-  >
-    <span style={{ fontSize: "17px" }}>
-      {isPwaInstalled ? "🚀" : "📱"}
-    </span>
-
-    <span>
-      {isPwaInstalled ? "Open Notes App" : "Install Notes App"}
-    </span>
-  </button>
-)}
-
-<button
-  type="button"
-  onClick={handleLogout}
+<div
   style={{
     width: "100%",
-    height: "42px",
-    border: "1px solid #f0caca",
-    borderRadius: "8px",
-    background: "#fff",
-    color: "#c0392b",
-    cursor: "pointer",
-    fontWeight: "600",
-    fontSize: "14px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "8px"
+    maxWidth: "1000px",
+    margin: "0 auto",
+    padding: "14px 16px 0",
+    boxSizing: "border-box"
   }}
 >
-  <svg
-    width="17"
-    height="17"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <path
-      d="M9 21H5C3.9 21 3 20.1 3 19V5C3 3.9 3.9 3 5 3H9"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-
-    <path
-      d="M16 17L21 12L16 7"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-
-    <path
-      d="M21 12H9"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-
-  <span>Logout</span>
-</button>
-    </div>
-  </div>
-)}
-      </div>
-
-      {/* ================= CLASS NOTES ================= */}
-      {(!type || type === "classnotes") && (
-        <main
-          style={{
-            maxWidth: "1000px",
-            margin: "0 auto",
-            padding: "18px 16px 40px"
-          }}
-        >
-          {/* Heading */}
-          <div
-            style={{
-              marginBottom: "24px"
-            }}
-          >
-            <h1
-              style={{
-                margin: "0 0 6px",
-                fontSize: "28px",
-                lineHeight: "1.2"
-              }}
-            >
-              Class Notes
-            </h1>
-
-            <p
-              style={{
-                margin: 0,
-                color: "#596579",
-                lineHeight: "1.5"
-              }}
-            >
-              Find your notes by subject.
-            </p>
-          </div>
-
-          {/* Subject Selector */}
-          <div
-            style={{
-              marginBottom: "28px"
-            }}
-          >
-            <p
-              style={{
-                margin: "0 0 10px",
-                fontWeight: "600"
-              }}
-            >
-              Select Subject
-            </p>
-
-            <div
-              style={{
-                display: "flex",
-                gap: "8px",
-                overflowX: "auto",
-                paddingBottom: "6px",
-                WebkitOverflowScrolling: "touch",
-                scrollbarWidth: "none"
-              }}
-            >
-              {subjects.map((subject) => (
-                <button
-                  key={subject}
-                  onClick={() => setSelectedSubject(subject)}
-                  style={{
-                    flex: "0 0 auto",
-                    minHeight: "42px",
-                    padding: "9px 14px",
-                    borderRadius: "8px",
-                    border:
-                      selectedSubject === subject
-                        ? "1px solid #172033"
-                        : "1px solid #d3d8df",
-                    background:
-                      selectedSubject === subject
-                        ? "#172033"
-                        : "#f8f9fb",
-                    color:
-                      selectedSubject === subject
-                        ? "#fff"
-                        : "#222",
-                    cursor: "pointer",
-                    fontWeight:
-                      selectedSubject === subject
-                        ? "600"
-                        : "500",
-                    whiteSpace: "nowrap"
-                  }}
-                >
-                  {subject}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Selected Subject */}
-          <section>
-            <h2
-              style={{
-                margin: "0 0 16px",
-                fontSize: "21px"
-              }}
-            >
-              {selectedSubject} Notes
-            </h2>
-
-            {selectedNote ? (
-              <div>
-                {selectedNote.images &&
-                selectedNote.images.length > 0 ? (
-                  selectedNote.images.map((image) => (
-                    <article
-  key={image.name}
-  style={{
-    background: "#fff",
-    padding: "10px",
-    borderRadius: "10px",
-    border: "1px solid #dfe3e8",
-    marginBottom: "20px",
-    boxShadow: "0 3px 12px rgba(0,0,0,0.06)"
-  }}
->
-  {/* Title + Date */}
   <div
     style={{
+      position: "relative",
+      height: "54px",
       display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: "10px",
-      margin: "4px 6px 10px"
+      alignItems: "flex-start"
     }}
   >
-    <h3
+    {/* Greeting */}
+    <h2
       style={{
-        margin: 0,
-        fontSize: "16px",
+        margin: "16px 0 0",
+        fontSize: "22px",
         lineHeight: "1.3",
-        flex: 1,
-        minWidth: 0
+        minWidth: 0,
+        maxWidth: "calc(100% - 72px)",
+        overflowWrap: "anywhere",
+        fontWeight: "600",
+        letterSpacing: "-0.25px",
+        color: "#172033"
       }}
     >
-      {image.name}
-    </h3>
+      Hi, {username || "Student"} 👋
+    </h2>
 
-    {image.date && (
-      <span
+    {/* Profile + Share */}
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "7px"
+      }}
+    >
+      {/* Profile */}
+      <button
+        onClick={handleEditName}
+        aria-label="Edit profile name"
         style={{
-          flexShrink: 0,
-          fontSize: "10px",
-          color: "#667085",
-          whiteSpace: "nowrap"
+          width: "50px",
+          height: "50px",
+          borderRadius: "50%",
+          border: "1.5px solid #172033",
+          background: "#ffffff",
+          color: "#172033",
+          cursor: "pointer",
+          fontWeight: "600",
+          fontSize: "18px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          boxShadow: "0 2px 8px rgba(23,32,51,0.07)"
         }}
       >
-        {image.date}
-      </span>
-    )}
+        {(username || "S").charAt(0).toUpperCase()}
+      </button>
+
+      {/* Share */}
+      <button
+        type="button"
+        onClick={handleShare}
+        aria-label="Share Notes26"
+        title="Share Notes26"
+        style={{
+          width: "50px",
+          height: "50px",
+          border: "1px solid #d8dee7",
+          borderRadius: "14px",
+          background: "#ffffff",
+          color: "#172033",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          boxShadow: "0 2px 8px rgba(23,32,51,0.06)"
+        }}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <circle
+            cx="18"
+            cy="5"
+            r="2.2"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          />
+
+          <circle
+            cx="6"
+            cy="12"
+            r="2.2"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          />
+
+          <circle
+            cx="18"
+            cy="19"
+            r="2.2"
+            stroke="currentColor"
+            strokeWidth="1.8"
+          />
+
+          <path
+            d="M8 11L16 6.2"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+
+          <path
+            d="M8 13L16 17.8"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
+</div>
 
-  {/* Note Image */}
-  <img
-    src={image.imageUrl}
-    alt={image.name}
-    onClick={() => {
-      setOpenedImage(image);
-      setOpenedImageIndex(
-        selectedNote.images.findIndex(
-          (item) => item.name === image.name
-        )
-      );
-    }}
-    style={{
-      width: "100%",
-      maxWidth: "700px",
-      height: "500px",
-      display: "block",
-      margin: "0 auto",
-      borderRadius: "6px",
-      cursor: "pointer"
-    }}
-  />
-</article>
-                  ))
-                ) : (
-                  <p
-                    style={{
-                      color: "#596579"
-                    }}
-                  >
-                    No notes available for this subject yet.
-                  </p>
-                )}
-              </div>
-            ) : (
-              <p
-                style={{
-                  color: "#596579"
-                }}
-              >
-                No notes available for this subject yet.
-              </p>
-            )}
-          </section>
-        </main>
-      )}
-
-{/* ================= RECORD NOTES ================= */}
-{type === "recordnotes" && (
+{/* ================= CLASS NOTES ================= */}
+{(!type || type === "classnotes") && (
   <main
     style={{
       maxWidth: "1000px",
       margin: "0 auto",
-      padding: "18px 16px 40px"
+      padding: "28px 16px 40px",
+      boxSizing: "border-box"
     }}
   >
     {/* Heading */}
     <div
       style={{
-        marginBottom: "24px"
+        marginBottom: "30px"
       }}
     >
       <h1
         style={{
-          margin: "0 0 6px",
-          fontSize: "28px"
-        }}
-      >
-        Record Notes
-      </h1>
-
-      <p
-        style={{
           margin: 0,
-          color: "#596579",
-          lineHeight: "1.5"
+          fontSize: "28px",
+          lineHeight: "1.2",
+          letterSpacing: "-0.4px"
         }}
       >
-        Your practical and record work.
-      </p>
+        Class Notes
+      </h1>
     </div>
 
     {/* Subject Selector */}
     <div
       style={{
-        marginBottom: "28px"
+        marginBottom: "30px"
       }}
     >
       <p
         style={{
-          margin: "0 0 10px",
-          fontWeight: "600"
+          margin: "0 0 11px",
+          fontSize: "13px",
+          fontWeight: "600",
+          color: "#596579"
         }}
       >
-        Select Subject
+        Choose Subject
       </p>
 
       <div
         style={{
           display: "flex",
-          gap: "8px",
+          gap: "7px",
           overflowX: "auto",
-          paddingBottom: "6px",
+          paddingBottom: "4px",
           WebkitOverflowScrolling: "touch",
           scrollbarWidth: "none"
         }}
@@ -875,27 +562,29 @@ const handleSaveName = () => {
             onClick={() => setSelectedSubject(subject)}
             style={{
               flex: "0 0 auto",
-              minHeight: "42px",
-              padding: "9px 14px",
-              borderRadius: "8px",
+              minHeight: "40px",
+              padding: "8px 13px",
+              borderRadius: "9px",
               border:
                 selectedSubject === subject
                   ? "1px solid #172033"
-                  : "1px solid #d3d8df",
+                  : "1px solid #d7dce3",
               background:
                 selectedSubject === subject
                   ? "#172033"
-                  : "#f8f9fb",
+                  : "#ffffff",
               color:
                 selectedSubject === subject
-                  ? "#fff"
-                  : "#222",
+                  ? "#ffffff"
+                  : "#344054",
               cursor: "pointer",
               fontWeight:
                 selectedSubject === subject
                   ? "600"
                   : "500",
-              whiteSpace: "nowrap"
+              fontSize: "12px",
+              whiteSpace: "nowrap",
+              transition: "all 0.15s ease"
             }}
           >
             {subject}
@@ -908,12 +597,245 @@ const handleSaveName = () => {
     <section>
       <h2
         style={{
-          margin: "0 0 16px",
-          fontSize: "21px"
+          margin: "0 0 12px",
+          fontSize: "19px",
+          lineHeight: "1.3",
+          letterSpacing: "-0.2px"
         }}
       >
-        {selectedSubject} Record
+        {selectedSubject} Notes
       </h2>
+
+      {selectedNote?.images &&
+      selectedNote.images.length > 0 ? (
+        <div>
+          {selectedNote.images.map((image) => (
+            <article
+              key={image.name}
+              style={{
+                background: "#ffffff",
+                padding: "10px",
+                borderRadius: "11px",
+                border: "1px solid #e1e5ea",
+                marginBottom: "10px",
+                boxShadow:
+                  "0 2px 8px rgba(23,32,51,0.045)"
+              }}
+            >
+              {/* Image Header */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                  margin: "2px 4px 9px"
+                }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    fontSize: "14px",
+                    lineHeight: "1.35",
+                    fontWeight: "600",
+                    color: "#172033",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    minWidth: 0
+                  }}
+                >
+                  {image.name}
+                </h3>
+
+                {image.date && (
+                  <span
+                    style={{
+                      flexShrink: 0,
+                      fontSize: "10px",
+                      color: "#667085",
+                      whiteSpace: "nowrap"
+                    }}
+                  >
+                    {image.date}
+                  </span>
+                )}
+              </div>
+
+              <img
+                src={image.imageUrl}
+                alt={image.name}
+                onClick={() => {
+                  setOpenedImage(image);
+                  setOpenedImageIndex(
+                    selectedNote.images.findIndex(
+                      (item) => item.name === image.name
+                    )
+                  );
+                }}
+                style={{
+                  width: "100%",
+                  maxWidth: "700px",
+                  height: "auto",
+                  maxHeight: "500px",
+                  objectFit: "contain",
+                  display: "block",
+                  margin: "0 auto",
+                  borderRadius: "7px",
+                  cursor: "pointer"
+                }}
+              />
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div
+          style={{
+            background: "#ffffff",
+            border: "1px dashed #d3d8df",
+            borderRadius: "11px",
+            padding: "22px 16px",
+            textAlign: "center"
+          }}
+        >
+          <div
+            style={{
+              fontSize: "24px",
+              marginBottom: "6px"
+            }}
+          >
+            📚
+          </div>
+
+          <p
+            style={{
+              margin: 0,
+              color: "#596579",
+              fontSize: "13px"
+            }}
+          >
+            No notes available for this subject yet.
+          </p>
+        </div>
+      )}
+    </section>
+  </main>
+)}
+
+{/* ================= RECORD NOTES ================= */}
+{type === "recordnotes" && (
+<main
+  style={{
+    maxWidth: "1000px",
+    margin: "0 auto",
+    padding: "28px 16px 40px"
+  }}
+
+  >
+    {/* Heading */}
+    <div
+      style={{
+        marginBottom: "30px"
+      }}
+    >
+      <h1
+        style={{
+          margin: 0,
+          fontSize: "28px",
+          lineHeight: "1.2",
+          letterSpacing: "-0.4px"
+        }}
+      >
+        Record Notes
+      </h1>
+    </div>
+
+    {/* Subject Selector */}
+    <div
+      style={{
+        marginBottom: "30px"
+      }}
+    >
+      <p
+        style={{
+          margin: "0 0 11px",
+          fontSize: "13px",
+          fontWeight: "600",
+          color: "#596579"
+        }}
+      >
+        Choose Subject
+      </p>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "7px",
+          overflowX: "auto",
+          paddingBottom: "4px",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none"
+        }}
+      >
+        {subjects.map((subject) => (
+          <button
+            key={subject}
+            onClick={() => setSelectedSubject(subject)}
+            style={{
+              flex: "0 0 auto",
+              minHeight: "40px",
+              padding: "8px 13px",
+              borderRadius: "9px",
+              border:
+                selectedSubject === subject
+                  ? "1px solid #172033"
+                  : "1px solid #d7dce3",
+              background:
+                selectedSubject === subject
+                  ? "#172033"
+                  : "#ffffff",
+              color:
+                selectedSubject === subject
+                  ? "#ffffff"
+                  : "#344054",
+              cursor: "pointer",
+              fontWeight:
+                selectedSubject === subject
+                  ? "600"
+                  : "500",
+              fontSize: "12px",
+              whiteSpace: "nowrap",
+              transition: "all 0.15s ease"
+            }}
+          >
+            {subject}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    {/* Selected Subject */}
+    <section>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "10px",
+          marginBottom: "12px"
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontSize: "19px",
+            lineHeight: "1.3",
+            letterSpacing: "-0.2px"
+          }}
+        >
+          {selectedSubject} Record
+        </h2>
+      </div>
 
       {(() => {
         const selectedRecord = notesData.recordnotes.find(
@@ -926,75 +848,128 @@ const handleSaveName = () => {
             <article
               key={record.name}
               style={{
-                background: "#fff",
-                padding: "16px",
-                borderRadius: "10px",
-                border: "1px solid #dfe3e8",
-                marginBottom: "14px",
-                boxShadow:
-                  "0 3px 12px rgba(0,0,0,0.06)"
+                background: "#ffffff",
+                padding: "13px 14px",
+                borderRadius: "11px",
+                border: "1px solid #e1e5ea",
+                marginBottom: "10px",
+                boxShadow: "0 2px 8px rgba(23,32,51,0.045)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "12px"
               }}
             >
+              {/* Record Information */}
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "10px"
+                  minWidth: 0,
+                  flex: 1
                 }}
               >
-                <div style={{ minWidth: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "7px",
+                    minWidth: 0
+                  }}
+                >
+                  <span
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      borderRadius: "8px",
+                      background: "#f1f3f6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      fontSize: "14px"
+                    }}
+                  >
+                    📄
+                  </span>
+
                   <h3
                     style={{
                       margin: 0,
-                      fontSize: "16px",
-                      lineHeight: "1.4"
+                      fontSize: "14px",
+                      lineHeight: "1.35",
+                      fontWeight: "600",
+                      color: "#172033",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap"
                     }}
                   >
                     {record.name}
                   </h3>
-
-                  {record.date && (
-                    <p
-                      style={{
-                        margin: "5px 0 0",
-                        fontSize: "12px",
-                        color: "#667085"
-                      }}
-                    >
-                      {record.date}
-                    </p>
-                  )}
                 </div>
 
-                <a
-                  href={record.pdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    flexShrink: 0,
-                    padding: "9px 13px",
-                    borderRadius: "8px",
-                    background: "#172033",
-                    color: "#fff",
-                    textDecoration: "none",
-                    fontSize: "13px",
-                    fontWeight: "600"
-                  }}
-                >
-                  Open PDF
-                </a>
+                {record.date && (
+                  <p
+                    style={{
+                      margin: "4px 0 0 35px",
+                      fontSize: "10px",
+                      color: "#667085"
+                    }}
+                  >
+                    {record.date}
+                  </p>
+                )}
               </div>
+
+              {/* Open PDF */}
+              <a
+                href={record.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  flexShrink: 0,
+                  padding: "8px 11px",
+                  borderRadius: "8px",
+                  background: "#172033",
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                Open PDF
+              </a>
             </article>
           ))
         ) : (
-          <p
+          <div
             style={{
-              color: "#596579"
+              background: "#ffffff",
+              border: "1px dashed #d3d8df",
+              borderRadius: "11px",
+              padding: "22px 16px",
+              textAlign: "center"
             }}
           >
-            No record notes available for this subject yet.
-          </p>
+            <div
+              style={{
+                fontSize: "24px",
+                marginBottom: "6px"
+              }}
+            >
+              📚
+            </div>
+
+            <p
+              style={{
+                margin: 0,
+                color: "#596579",
+                fontSize: "13px"
+              }}
+            >
+              No record notes available yet.
+            </p>
+          </div>
         );
       })()}
     </section>
@@ -1003,163 +978,389 @@ const handleSaveName = () => {
 
 
       {/* ================= IMPORTANT ================= */}
-      {type === "imp" && (
-        <main
+{/* ================= IMPORTANT ================= */}
+{type === "imp" && (
+  <main
+    style={{
+      maxWidth: "1000px",
+      margin: "0 auto",
+      padding: "28px 16px 40px",
+      boxSizing: "border-box"
+    }}
+  >
+    {/* Heading */}
+    <div
+      style={{
+        marginBottom: "30px"
+      }}
+    >
+      <h1
+        style={{
+          margin: 0,
+          fontSize: "28px",
+          lineHeight: "1.2",
+          letterSpacing: "-0.4px"
+        }}
+      >
+        Important
+      </h1>
+
+      <p
+        style={{
+          margin: "8px 0 0",
+          color: "#667085",
+          fontSize: "13px",
+          lineHeight: "1.45"
+        }}
+      >
+        Important dates and reminders.
+      </p>
+    </div>
+
+    {/* Important Items */}
+    <section>
+      {notesData.imp.map((item) => (
+        <article
+          key={item.title}
           style={{
-            maxWidth: "1000px",
-            margin: "0 auto",
-            padding: "18px 16px 40px"
+            background: "#ffffff",
+            padding: "14px",
+            borderRadius: "11px",
+            border: "1px solid #e1e5ea",
+            marginBottom: "10px",
+            boxShadow:
+              "0 2px 8px rgba(23,32,51,0.045)"
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              fontSize: "15px",
+              lineHeight: "1.4",
+              fontWeight: "600",
+              color: "#172033"
+            }}
+          >
+            {item.title}
+          </h2>
+
+          <p
+            style={{
+              margin: "5px 0 0",
+              color: "#667085",
+              fontSize: "11px",
+              lineHeight: "1.4"
+            }}
+          >
+            {item.date}
+          </p>
+        </article>
+      ))}
+    </section>
+  </main>
+)}
+{/* ================= ANNOUNCEMENTS ================= */}
+{type === "announcements" && (
+  <main
+    style={{
+      maxWidth: "1000px",
+      margin: "0 auto",
+      padding: "28px 16px 40px",
+      boxSizing: "border-box"
+    }}
+  >
+    {/* Heading */}
+    <div
+      style={{
+        marginBottom: "30px"
+      }}
+    >
+      <h1
+        style={{
+          margin: 0,
+          fontSize: "28px",
+          lineHeight: "1.2",
+          letterSpacing: "-0.4px"
+        }}
+      >
+        Announcements
+      </h1>
+
+      <p
+        style={{
+          margin: "8px 0 0",
+          color: "#667085",
+          fontSize: "13px",
+          lineHeight: "1.45"
+        }}
+      >
+        Important updates and announcements.
+      </p>
+    </div>
+
+    {/* Announcements */}
+    <section>
+      {notesData.announcements.map((item) => (
+        <article
+          key={item.title}
+          style={{
+            background: "#ffffff",
+            padding: "10px",
+            borderRadius: "11px",
+            border: "1px solid #e1e5ea",
+            marginBottom: "10px",
+            boxShadow:
+              "0 2px 8px rgba(23,32,51,0.045)"
           }}
         >
           <div
             style={{
-              marginBottom: "24px"
+              padding: "3px 4px 8px"
             }}
           >
-            <h1
+            <h2
               style={{
-                margin: "0 0 6px",
-                fontSize: "28px"
+                margin: 0,
+                fontSize: "15px",
+                lineHeight: "1.4",
+                fontWeight: "600",
+                color: "#172033"
               }}
             >
-              Important
-            </h1>
+              {item.title}
+            </h2>
 
             <p
               style={{
-                margin: 0,
-                color: "#596579",
-                lineHeight: "1.5"
+                margin: "5px 0 0",
+                color: "#667085",
+                fontSize: "11px"
               }}
             >
-              Important dates and reminders.
+              {item.date}
             </p>
           </div>
 
-          {notesData.imp.map((item) => (
-            <article
-              key={item.title}
+          {item.imageUrl && (
+            <img
+              src={item.imageUrl}
+              alt={item.title}
               style={{
-                background: "#fff",
-                padding: "18px",
-                borderRadius: "10px",
-                border: "1px solid #dfe3e8",
-                marginBottom: "14px",
-                boxShadow:
-                  "0 3px 12px rgba(0,0,0,0.05)"
+                width: "100%",
+                maxWidth: "700px",
+                height: "auto",
+                display: "block",
+                margin: "2px auto 0",
+                borderRadius: "7px"
               }}
-            >
-              <h2
-                style={{
-                  margin: "0 0 8px",
-                  fontSize: "18px"
-                }}
-              >
-                {item.title}
-              </h2>
+            />
+          )}
+        </article>
+      ))}
+    </section>
+  </main>
+)}
 
-              <p
-                style={{
-                  margin: 0,
-                  color: "#596579"
-                }}
-              >
-                {item.date}
-              </p>
-            </article>
-          ))}
-        </main>
-      )}
+{/* ================= PROFILE MODAL ================= */}
+{isEditingName && (
+  <div
+    style={{
+      position: "fixed",
+      inset: 0,
+      zIndex: 3000,
+      background: "rgba(0, 0, 0, 0.45)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "20px",
+      boxSizing: "border-box"
+    }}
+    onClick={() => setIsEditingName(false)}
+  >
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "360px",
+        background: "#ffffff",
+        borderRadius: "16px",
+        padding: "22px",
+        boxSizing: "border-box",
+        boxShadow: "0 20px 50px rgba(0,0,0,0.18)"
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Header */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginBottom: "20px"
+        }}
+      >
+        <div>
+          <h2
+            style={{
+              margin: 0,
+              fontSize: "20px",
+              color: "#172033"
+            }}
+          >
+            Profile
+          </h2>
 
-      {/* ================= ANNOUNCEMENTS ================= */}
-      {type === "announcements" && (
-        <main
+          <p
+            style={{
+              margin: "5px 0 0",
+              fontSize: "12px",
+              color: "#667085"
+            }}
+          >
+            Manage your Notes profile
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsEditingName(false)}
+          aria-label="Close profile"
           style={{
-            maxWidth: "1000px",
-            margin: "0 auto",
-            padding: "18px 16px 40px"
+            width: "32px",
+            height: "32px",
+            border: "none",
+            borderRadius: "8px",
+            background: "#f1f3f6",
+            color: "#172033",
+            cursor: "pointer",
+            fontSize: "18px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
-          <div
-            style={{
-              marginBottom: "24px"
-            }}
-          >
-            <h1
-              style={{
-                margin: "0 0 6px",
-                fontSize: "28px"
-              }}
-            >
-              Announcements
-            </h1>
+          ×
+        </button>
+      </div>
 
-            <p
-              style={{
-                margin: 0,
-                color: "#596579",
-                lineHeight: "1.5"
-              }}
-            >
-              Important updates and announcements.
-            </p>
-          </div>
+      {/* Avatar */}
+      <div
+        style={{
+          width: "64px",
+          height: "64px",
+          margin: "0 auto 18px",
+          borderRadius: "50%",
+          background: "#172033",
+          color: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "25px",
+          fontWeight: "600"
+        }}
+      >
+        {(editedUsername || username || "S").charAt(0).toUpperCase()}
+      </div>
 
-          {notesData.announcements.map((item) => (
-            <article
-              key={item.title}
-              style={{
-                background: "#fff",
-                padding: "10px",
-                borderRadius: "10px",
-                border: "1px solid #dfe3e8",
-                marginBottom: "20px",
-                boxShadow:
-                  "0 3px 12px rgba(0,0,0,0.06)"
-              }}
-            >
-              <div
-                style={{
-                  padding: "8px"
-                }}
-              >
-                <h2
-                  style={{
-                    margin: "0 0 8px",
-                    fontSize: "19px"
-                  }}
-                >
-                  {item.title}
-                </h2>
+      {/* Name */}
+      <label
+        style={{
+          display: "block",
+          marginBottom: "7px",
+          fontSize: "12px",
+          fontWeight: "600",
+          color: "#596579"
+        }}
+      >
+        Your name
+      </label>
 
-                <p
-                  style={{
-                    margin: 0,
-                    color: "#596579"
-                  }}
-                >
-                  {item.date}
-                </p>
-              </div>
+      <input
+        type="text"
+        value={editedUsername}
+        onChange={(e) => setEditedUsername(e.target.value)}
+        autoFocus
+        maxLength={40}
+        style={{
+          width: "100%",
+          height: "44px",
+          boxSizing: "border-box",
+          border: "1px solid #d7dce3",
+          borderRadius: "9px",
+          padding: "0 12px",
+          outline: "none",
+          fontSize: "14px",
+          color: "#172033",
+          background: "#ffffff"
+        }}
+      />
 
-              {item.imageUrl && (
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  style={{
-                    width: "100%",
-                    maxWidth: "700px",
-                    height: "auto",
-                    display: "block",
-                    margin: "12px auto 0",
-                    borderRadius: "6px"
-                  }}
-                />
-              )}
-            </article>
-          ))}
-        </main>
-              )}
+      {/* Save */}
+      <button
+        type="button"
+        onClick={handleSaveName}
+        style={{
+          width: "100%",
+          height: "44px",
+          marginTop: "12px",
+          border: "none",
+          borderRadius: "9px",
+          background: "#172033",
+          color: "#ffffff",
+          cursor: "pointer",
+          fontSize: "14px",
+          fontWeight: "600"
+        }}
+      >
+        Save Changes
+      </button>
+
+
+        {!isPwaInstalled && !isStandalone && installPrompt && (
+  <button
+    type="button"
+    onClick={handleInstall}
+    style={{
+      width: "100%",
+      height: "42px",
+      marginTop: "8px",
+      border: "1px solid #dbe4f0",
+      borderRadius: "9px",
+      background: "#eef6ff",
+      color: "#172033",
+      cursor: "pointer",
+      fontSize: "13px",
+      fontWeight: "600",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "7px"
+    }}
+  >
+    📱 Install Notes App
+  </button>
+)}
+      {/* Logout */}
+      <button
+        type="button"
+        onClick={handleLogout}
+        style={{
+          width: "100%",
+          height: "42px",
+          marginTop: "8px",
+          border: "1px solid #e1e5ea",
+          borderRadius: "9px",
+          background: "#ffffff",
+          color: "#b42318",
+          cursor: "pointer",
+          fontSize: "13px",
+          fontWeight: "600"
+        }}
+      >
+        Log Out
+      </button>
+    </div>
+  </div>
+)}
 
       {/* Full Screen Note Viewer */}
       {openedImage && (
@@ -1503,54 +1704,7 @@ const handleSaveName = () => {
         </div>
 
       )}
-<input
-  type="file"
-  accept="image/*"
-  onChange={(e) => {
-    const file = e.target.files[0];
 
-    if (!file) return;
-
-    setSelectedFile(file);
-    handleUpload(file);
-  }}
-/>
-
-<button
-  onClick={handleUpload}
-  disabled={!selectedFile || isUploading}
->
-  {isUploading ? "Uploading..." : "Upload"}
-</button>
-
-{uploadedUrl && (
-  <img
-    src={uploadedUrl}
-    alt="Uploaded note"
-    style={{
-      width: "300px",
-      marginTop: "20px"
-    }}
-  />
-)}
-{uploadedUrl && (
-  <button
-    onClick={handleSendWhatsApp}
-    style={{
-      display: "block",
-      marginTop: "12px",
-      padding: "10px 16px",
-      border: "none",
-      borderRadius: "8px",
-      background: "#172033",
-      color: "#fff",
-      cursor: "pointer",
-      fontWeight: "600"
-    }}
-  >
-    Send on WhatsApp
-  </button>
-)}
 
 {!isStandalone && showInstallBar && !dismissInstallBar && (
     <div
@@ -1775,3 +1929,4 @@ const handleSaveName = () => {
 }
 
 export default Notes;
+
