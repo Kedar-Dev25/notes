@@ -155,6 +155,12 @@ recordnotes: [
 
 announcements: [
   {
+    title: "Holiday Notice — 25 September 2026",
+    date: "25 September 2026",
+    imageUrl:
+      "https://res.cloudinary.com/dwus1tmi/image/upload/v1790319010/WhatsApp_Image_2026-09-24_at_10.58.26_PM.jpg"
+  },
+  {
     title: "Holiday Notice — 24 September 2026",
     date: "23 September 2026",
     imageUrl:
