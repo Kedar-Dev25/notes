@@ -13,9 +13,9 @@ useEffect(() => {
     window.navigator.standalone === true;
 
   if (isStandalone) {
-    navigate("/notes", { replace: true });
+    window.location.replace("/notes");
   }
-}, [navigate]);
+}, []);
 useEffect(() => {
   if (window.notesInstallPrompt) {
     setInstallPrompt(window.notesInstallPrompt);
