@@ -16,7 +16,7 @@
   ],
 
   "launch_handler": {
-    "client_mode": "navigate-existing"
+    "client_mode": "navigate-new"
   },
   "background_color": "#eef1f5",
   "theme_color": "#172033",
