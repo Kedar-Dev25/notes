@@ -66,20 +66,11 @@ const handleShare = async () => {
 
 useEffect(() => {
   if (isStandalone) {
+    setShowInstallBar(false);
     return;
   }
 
-  const handleScroll = () => {
-    if (window.scrollY > 180) {
-      setShowInstallBar(true);
-    }
-  };
-
-  window.addEventListener("scroll", handleScroll);
-
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-  };
+  setShowInstallBar(true);
 }, [isStandalone]);
 
 

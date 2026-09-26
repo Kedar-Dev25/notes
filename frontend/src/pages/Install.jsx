@@ -17,23 +17,20 @@ useEffect(() => {
   }
 }, [navigate]);
 useEffect(() => {
-  const handleBeforeInstallPrompt = (event) => {
-    event.preventDefault();
+  if (window.notesInstallPrompt) {
+    setInstallPrompt(window.notesInstallPrompt);
+    return;
+  }
 
-    window.notesInstallPrompt = event;
-    setInstallPrompt(event);
-  };
-
-  window.addEventListener(
-    "beforeinstallprompt",
-    handleBeforeInstallPrompt
-  );
+  const checkPrompt = setInterval(() => {
+    if (window.notesInstallPrompt) {
+      setInstallPrompt(window.notesInstallPrompt);
+      clearInterval(checkPrompt);
+    }
+  }, 300);
 
   return () => {
-    window.removeEventListener(
-      "beforeinstallprompt",
-      handleBeforeInstallPrompt
-    );
+    clearInterval(checkPrompt);
   };
 }, []);
 
@@ -47,12 +44,13 @@ const handleInstall = async () => {
 
   const { outcome } = await installPrompt.userChoice;
 
+  // This event can only be prompted once
+  window.notesInstallPrompt = null;
+  setInstallPrompt(null);
+
   if (outcome === "accepted") {
     localStorage.setItem("notesPwaInstalled", "true");
     localStorage.setItem("notesShowInstalledWelcome", "true");
-
-    window.notesInstallPrompt = null;
-    setInstallPrompt(null);
   }
 };
   return (
