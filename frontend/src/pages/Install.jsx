@@ -13,7 +13,7 @@ useEffect(() => {
     window.navigator.standalone === true;
 
   if (isStandalone) {
-    window.location.replace("/notes");
+    window.location.replace("/");
   }
 }, []);
 useEffect(() => {
@@ -49,10 +49,12 @@ const handleInstall = async () => {
   window.notesInstallPrompt = null;
   setInstallPrompt(null);
 
-  if (outcome === "accepted") {
-    localStorage.setItem("notesPwaInstalled", "true");
-    localStorage.setItem("notesShowInstalledWelcome", "true");
-  }
+ if (outcome === "accepted") {
+  localStorage.setItem("notesPwaInstalled", "true");
+  localStorage.setItem("notesShowInstalledWelcome", "true");
+
+  window.location.replace("/");
+}
 };
   return (
     <div
