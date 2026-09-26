@@ -1,9 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Notes from "./pages/Notes";
 import Auth from "./pages/Auth";
 import Install from "./pages/Install";
 
 function App() {
+
+
   return (
     <BrowserRouter>
       <Routes>

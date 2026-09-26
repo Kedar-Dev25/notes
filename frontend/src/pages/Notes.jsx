@@ -110,26 +110,7 @@ useEffect(() => {
   }
 }, []);
 
-useEffect(() => {
-const handleBeforeInstallPrompt = (event) => {
-  event.preventDefault();
 
-  window.notesInstallPrompt = event;
-  setInstallPrompt(event);
-};
-
-  window.addEventListener(
-    "beforeinstallprompt",
-    handleBeforeInstallPrompt
-  );
-
-  return () => {
-    window.removeEventListener(
-      "beforeinstallprompt",
-      handleBeforeInstallPrompt
-    );
-  };
-}, []);
 
 useEffect(() => {
   const standalone = window.matchMedia(
@@ -1311,30 +1292,7 @@ const handleSaveName = () => {
       </button>
 
 
-        {!isPwaInstalled && !isStandalone && installPrompt && (
-  <button
-    type="button"
-    onClick={handleInstall}
-    style={{
-      width: "100%",
-      height: "42px",
-      marginTop: "8px",
-      border: "1px solid #dbe4f0",
-      borderRadius: "9px",
-      background: "#eef6ff",
-      color: "#172033",
-      cursor: "pointer",
-      fontSize: "13px",
-      fontWeight: "600",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "7px"
-    }}
-  >
-    📱 Install Notes App
-  </button>
-)}
+
       {/* Logout */}
       <button
         type="button"

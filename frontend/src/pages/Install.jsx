@@ -35,16 +35,17 @@ useEffect(() => {
 }, []);
 
 const handleInstall = async () => {
-  if (!installPrompt) {
+  const promptEvent = window.notesInstallPrompt;
+
+  if (!promptEvent) {
     alert("Install prompt is not available on this browser yet.");
     return;
   }
 
-  installPrompt.prompt();
+  promptEvent.prompt();
 
-  const { outcome } = await installPrompt.userChoice;
+  const { outcome } = await promptEvent.userChoice;
 
-  // This event can only be prompted once
   window.notesInstallPrompt = null;
   setInstallPrompt(null);
 
