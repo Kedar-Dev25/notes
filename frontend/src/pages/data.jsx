@@ -55,43 +55,26 @@ export const notesData = {
     },
 
     {
-      title: "Data Structure",
-      images: [
-        {
-          name: "Data Structure Notes 1",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        },
-        {
-          name: "Data Structure Notes 2",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        },
-        {
-          name: "Data Structure Notes 3",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        }
-      ]
+  title: "Data Structure",
+  images: [
+    {
+      name: "Linkedlist - Insertion after a given node",
+      imageUrl: "/notes/classnotes/linkedlist1.jpeg"
     },
+    {
+      name: "Linkedlist - Insertion after a given node",
+      imageUrl: "/notes/classnotes/linkedlist2.jpeg"
+    }
+  ]
+},
 
     {
       title: "Algorithm",
       images: [
         {
-          name: "Algorithm Notes 1",
+          name: "Quick sort Algorithm",
           imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        },
-        {
-          name: "Algorithm Notes 2",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
-        },
-        {
-          name: "Algorithm Notes 3",
-          imageUrl:
-            "https://res.cloudinary.com/dwus1tmi/image/upload/v1789570178/Screenshot_2026-04-22_153509.png"
+            "/notes/classnotes/quicksort.jpeg"
         }
       ]
     }

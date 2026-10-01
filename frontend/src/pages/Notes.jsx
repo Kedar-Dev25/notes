@@ -588,86 +588,116 @@ const handleSaveName = () => {
 
       {selectedNote?.images &&
       selectedNote.images.length > 0 ? (
-        <div>
-          {selectedNote.images.map((image) => (
-            <article
-              key={image.name}
+<div>
+  {Object.values(
+    selectedNote.images.reduce((groups, image) => {
+      if (!groups[image.name]) {
+        groups[image.name] = [];
+      }
+
+      groups[image.name].push(image);
+
+      return groups;
+    }, {})
+  ).map((group) => {
+    const noteName = group[0].name;
+
+    return (
+      <article
+        key={noteName}
+        style={{
+          background: "#ffffff",
+          padding: "10px",
+          borderRadius: "11px",
+          border: "1px solid #e1e5ea",
+          marginBottom: "10px",
+          boxShadow:
+            "0 2px 8px rgba(23,32,51,0.045)"
+        }}
+      >
+        {/* Note Header */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "10px",
+            margin: "2px 4px 9px"
+          }}
+        >
+          <h3
+            style={{
+              margin: 0,
+              fontSize: "14px",
+              lineHeight: "1.35",
+              fontWeight: "600",
+              color: "#172033",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              minWidth: 0
+            }}
+          >
+            {noteName}
+          </h3>
+
+          {group[0].date && (
+            <span
               style={{
-                background: "#ffffff",
-                padding: "10px",
-                borderRadius: "11px",
-                border: "1px solid #e1e5ea",
-                marginBottom: "10px",
-                boxShadow:
-                  "0 2px 8px rgba(23,32,51,0.045)"
+                flexShrink: 0,
+                fontSize: "10px",
+                color: "#667085",
+                whiteSpace: "nowrap"
               }}
             >
-              {/* Image Header */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "10px",
-                  margin: "2px 4px 9px"
-                }}
-              >
-                <h3
-                  style={{
-                    margin: 0,
-                    fontSize: "14px",
-                    lineHeight: "1.35",
-                    fontWeight: "600",
-                    color: "#172033",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    minWidth: 0
-                  }}
-                >
-                  {image.name}
-                </h3>
+              {group[0].date}
+            </span>
+          )}
+        </div>
 
-                {image.date && (
-                  <span
-                    style={{
-                      flexShrink: 0,
-                      fontSize: "10px",
-                      color: "#667085",
-                      whiteSpace: "nowrap"
-                    }}
-                  >
-                    {image.date}
-                  </span>
-                )}
-              </div>
+        {/* Images */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              group.length === 1
+                ? "1fr"
+                : "repeat(2, minmax(0, 1fr))",
+            gap: "6px"
+          }}
+        >
+          {group.map((image, index) => {
+            const imageIndex = selectedNote.images.indexOf(image);
 
+            return (
               <img
+                key={image.imageUrl}
                 src={image.imageUrl}
-                alt={image.name}
+                alt={`${noteName} ${index + 1}`}
                 onClick={() => {
                   setOpenedImage(image);
-                  setOpenedImageIndex(
-                    selectedNote.images.findIndex(
-                      (item) => item.name === image.name
-                    )
-                  );
+                  setOpenedImageIndex(imageIndex);
                 }}
                 style={{
                   width: "100%",
-                  maxWidth: "700px",
-                  height: "auto",
+                  height:
+                    group.length === 1
+                      ? "auto"
+                      : "260px",
                   maxHeight: "500px",
-                  objectFit: "contain",
+                  objectFit: "cover",
                   display: "block",
-                  margin: "0 auto",
                   borderRadius: "7px",
                   cursor: "pointer"
                 }}
               />
-            </article>
-          ))}
+            );
+          })}
         </div>
+      </article>
+    );
+  })}
+</div>
       ) : (
         <div
           style={{
