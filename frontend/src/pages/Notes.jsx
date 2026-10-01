@@ -240,7 +240,10 @@ useEffect(() => {
   const selectedNote = classNotes.find(
     (note) => note.title === selectedSubject
   );
-
+const viewerItems =
+  type === "announcements"
+    ? notesData.announcements
+    : selectedNote?.images || [];
 const navItems = [
   {
     label: "Record Notes",
@@ -1119,19 +1122,28 @@ const handleSaveName = () => {
           </div>
 
           {item.imageUrl && (
-            <img
-              src={item.imageUrl}
-              alt={item.title}
-              style={{
-                width: "100%",
-                maxWidth: "700px",
-                height: "auto",
-                display: "block",
-                margin: "2px auto 0",
-                borderRadius: "7px"
-              }}
-            />
-          )}
+  <img
+    src={item.imageUrl}
+    alt={item.title}
+    onClick={() => {
+      const index = notesData.announcements.findIndex(
+        (announcement) => announcement.title === item.title
+      );
+
+      setOpenedImage(item);
+      setOpenedImageIndex(index);
+    }}
+    style={{
+      width: "100%",
+      maxWidth: "700px",
+      height: "auto",
+      display: "block",
+      margin: "2px auto 0",
+      borderRadius: "7px",
+      cursor: "pointer"
+    }}
+  />
+)}
         </article>
       ))}
     </section>
@@ -1319,6 +1331,30 @@ const handleSaveName = () => {
       {/* Full Screen Note Viewer */}
       {openedImage && (
         <div
+        onTouchStart={(e) => {
+      e.currentTarget.dataset.touchStartX = e.touches[0].clientX;
+    }}
+    onTouchEnd={(e) => {
+      const startX = Number(e.currentTarget.dataset.touchStartX);
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) < 50) return;
+
+      // Left swipe → Next
+      if (diff > 0 && openedImageIndex < viewerItems.length - 1) {
+        const newIndex = openedImageIndex + 1;
+        setOpenedImageIndex(newIndex);
+        setOpenedImage(viewerItems[newIndex]);
+      }
+
+      // Right swipe → Previous
+      if (diff < 0 && openedImageIndex > 0) {
+        const newIndex = openedImageIndex - 1;
+        setOpenedImageIndex(newIndex);
+        setOpenedImage(viewerItems[newIndex]);
+      }
+    }}
           style={{
             position: "fixed",
             inset: 0,
@@ -1376,7 +1412,48 @@ const handleSaveName = () => {
     />
   </svg>
 </button>
+<div
+  style={{
+    flex: 1,
+    minWidth: 0,
+    margin: "0 12px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden"
+  }}
+>
+  <span
+    style={{
+      fontSize: "9px",
+      fontWeight: "600",
+      letterSpacing: "0.8px",
+      textTransform: "uppercase",
+      color: "#8f9aae",
+      lineHeight: "1.2",
+      marginBottom: "3px"
+    }}
+  >
+    {type === "announcements" ? "Announcement" : "Class Note"}
+  </span>
 
+  <div
+    style={{
+      width: "100%",
+      textAlign: "center",
+      fontSize: "13px",
+      fontWeight: "600",
+      lineHeight: "1.3",
+      color: "#ffffff",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis"
+    }}
+  >
+    {openedImage.name || openedImage.title}
+  </div>
+</div>
             <button
   onClick={async () => {
     try {
@@ -1461,17 +1538,17 @@ const handleSaveName = () => {
       margin: "0 auto"
     }}
   >
-    <h2
-      style={{
-        margin: "0 0 12px",
-        fontSize: "17px",
-        fontWeight: "600",
-        color: "#172033",
-        lineHeight: "1.4"
-      }}
-    >
-      {openedImage.name}
-    </h2>
+  <h2
+  style={{
+    margin: "0 0 12px",
+    fontSize: "17px",
+    fontWeight: "600",
+    color: "#172033",
+    lineHeight: "1.4"
+  }}
+>
+  {openedImage.name || openedImage.title}
+</h2>
 
     <img
       src={openedImage.imageUrl}
@@ -1501,11 +1578,11 @@ const handleSaveName = () => {
   {/* Previous */}
   <button
     onClick={() => {
-      if (openedImageIndex > 0) {
-        const newIndex = openedImageIndex - 1;
-        setOpenedImageIndex(newIndex);
-        setOpenedImage(selectedNote.images[newIndex]);
-      }
+if (openedImageIndex > 0) {
+  const newIndex = openedImageIndex - 1;
+  setOpenedImageIndex(newIndex);
+  setOpenedImage(viewerItems[newIndex]);
+}
     }}
     disabled={openedImageIndex === 0}
     style={{
@@ -1527,13 +1604,13 @@ const handleSaveName = () => {
   </button>
 
   {/* Page Numbers */}
-  {selectedNote.images.length <= 4 ? (
-    selectedNote.images.map((_, index) => (
+  {viewerItems.length <= 4 ? (
+    viewerItems.map((_, index) => (
       <button
         key={index}
         onClick={() => {
           setOpenedImageIndex(index);
-          setOpenedImage(selectedNote.images[index]);
+          setOpenedImage(viewerItems[index]);
         }}
         style={{
           width: "38px",
@@ -1593,9 +1670,9 @@ const handleSaveName = () => {
 
       <button
         onClick={() => {
-          const lastIndex = selectedNote.images.length - 1;
-          setOpenedImageIndex(lastIndex);
-          setOpenedImage(selectedNote.images[lastIndex]);
+const lastIndex = viewerItems.length - 1;
+setOpenedImageIndex(lastIndex);
+setOpenedImage(viewerItems[lastIndex]);
         }}
         style={{
           width: "38px",
@@ -1614,7 +1691,7 @@ const handleSaveName = () => {
           fontWeight: "600"
         }}
       >
-        {selectedNote.images.length}
+        {viewerItems.length}
       </button>
     </>
   )}
@@ -1622,15 +1699,15 @@ const handleSaveName = () => {
   {/* Next */}
   <button
     onClick={() => {
-      if (openedImageIndex < selectedNote.images.length - 1) {
-        const newIndex = openedImageIndex + 1;
-        setOpenedImageIndex(newIndex);
-        setOpenedImage(selectedNote.images[newIndex]);
-      }
+if (openedImageIndex < viewerItems.length - 1) {
+  const newIndex = openedImageIndex + 1;
+  setOpenedImageIndex(newIndex);
+  setOpenedImage(viewerItems[newIndex]);
+}
     }}
-    disabled={
-      openedImageIndex === selectedNote.images.length - 1
-    }
+disabled={
+  openedImageIndex === viewerItems.length - 1
+}
     style={{
       width: "38px",
       height: "38px",

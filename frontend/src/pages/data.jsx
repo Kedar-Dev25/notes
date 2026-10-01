@@ -155,6 +155,11 @@ recordnotes: [
 
 announcements: [
   {
+    title: "Winter 2026 Examination Form Fill-Up — Revised Dates",
+    date: "30 September 2026",
+    imageUrl: "/notes/Updates/winter-2026-exam.png"
+  },
+  {
     title: "Holiday Notice — 25 September 2026",
     date: "25 September 2026",
     imageUrl:
@@ -173,4 +178,5 @@ announcements: [
       "https://res.cloudinary.com/dwus1tmi/image/upload/v1789569881/WhatsApp_Image_2026-08-19_at_4.34.19_PM_1.jpg"
   }
 ]
+
 };
